@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>!!success!!</title>
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+        }
+        body {
+            background: url("/static/qz.png") ;
+            background-repeat: no-repeat;
+            /*background-size:2000px 950px;*/
+            background-size: 100% 100%;
+        }
+        .myform{
+            text-align: center;
+            line-height: 50%;
+            margin-top: 270px;
+            margin-left: -80px;
+        }
+        #mybutton{
+            margin-left: 50px;
+        }
+    </style>
+</head>
+<body>
+<div style="width: 400px; height: 350px; background: transparent; position: absolute; top: 70%; left: 50%; transform: translate3d(-50%, -50%,0)">
+<form class="myform" action="/login/index" method="get">
+    <span style="color: dodgerblue">姓名：</span> <input type="text" style="width: 210px;top: 30%;"><br><br>
+    <span style="color: dodgerblue">密码：</span> <input type="password" style="width: 210px;top: 30%;"><br><br>
+    <span id="mybutton"><input type="submit" value="提交">&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value="重置"></span>
+
+</form>
+</div>
+</body>
+</html>
