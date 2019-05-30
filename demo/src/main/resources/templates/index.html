@@ -9,7 +9,7 @@
             height: 100%;
         }
         body {
-            background: url("/static/qz.png") ;
+            background: url("/qz.png") ;
             background-repeat: no-repeat;
             /*background-size:2000px 950px;*/
             background-size: 100% 100%;
@@ -28,8 +28,8 @@
 <body>
 <div style="width: 400px; height: 350px; background: transparent; position: absolute; top: 70%; left: 50%; transform: translate3d(-50%, -50%,0)">
 <form class="myform" action="/login/index" method="get">
-    <span style="color: dodgerblue">姓名：</span> <input type="text" style="width: 210px;top: 30%;"><br><br>
-    <span style="color: dodgerblue">密码：</span> <input type="password" style="width: 210px;top: 30%;"><br><br>
+    <span style="color: dodgerblue">姓名：</span> <input type="text" style="width: 210px;top: 30%;" name="name"><br><br>
+    <span style="color: dodgerblue">密码：</span> <input type="password" style="width: 210px;top: 30%;" name="password"><br><br>
     <span id="mybutton"><input type="submit" value="提交">&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value="重置"></span>
 
 </form>
