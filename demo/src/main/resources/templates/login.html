@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登陆</title>
+    <script src="/jquery/jquery-3.4.0.min.js"></script>
+    <script src="/layer/layer.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            document.getElementById("submit").onclick=function(){
+                var name = $('#userName').val();
+                console.log(name);
+                $.ajax({
+                    url:"mylogin",
+                    data:{
+                        "name":name,
+                    },
+                    type:"get",
+                    dateType:"json",
+                    success:function (data) {
+                        console.log(data);
+                        if (data.success){
+                            window.location.href="/login/success";
+                            //window.open("/login/success")
+                        }else {
+                            layer.msg(data.message,{
+                                icon: 5,
+                                skin: 'layui-layer-molv',
+                                shift: 6,
+                                time: 1000
+                            });
+                            //alert(data.message);
+                            $("#userName").val('');
+                        }
+                    }
+                });
+            }
+            document.getElementById("try").onclick=function(){
+                layer.tips('点击测试','#try',{
+                    tips:[1,'#3595CC'],
+                    time:500,
+                });
+            }
+        })
+    </script>
+</head>
+<body>
+<p>用户名：</p>
+<input id="userName" type="text" name="userName" placeholder="输入用户名"><br>
+<button id="submit">确认</button><br>
+<button id="try">try</button>
+</body>
+</html>
