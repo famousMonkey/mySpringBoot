@@ -22,11 +22,12 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class AliPayServiceImpl implements AliPayService {
 
-    /**
-     * 支付宝扫码支付
-     * @param orderId
-     * @param totalAmount
-     * @return
+    /*
+     * @Author 宋正健
+     * @Description //TODO(支付宝扫码支付)
+     * @Date 2019/6/11 10:59
+     * @Param [orderId, totalAmount]
+     * @Return java.lang.Boolean
      */
     @Override
     public Boolean precreate(String orderId,String totalAmount){
@@ -47,12 +48,12 @@ public class AliPayServiceImpl implements AliPayService {
         }
     }
 
-    /**
-     * 支付宝付款码支付
-     * @param orderId
-     * @param authCode
-     * @param totalAmount
-     * @return
+    /*
+     * @Author 宋正健
+     * @Description //TODO(支付宝付款码支付)
+     * @Date 2019/6/11 10:59
+     * @Param [orderId, authCode, totalAmount]
+     * @Return java.lang.Boolean
      */
     @Override
     public Boolean pay(String orderId, String authCode, String totalAmount) {
