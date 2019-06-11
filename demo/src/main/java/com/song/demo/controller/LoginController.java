@@ -2,6 +2,7 @@ package com.song.demo.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.song.demo.constant.Result;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Controller
 @RequestMapping(value = "login")
+@Api(tags = "练习接口")
 public class LoginController {
 
     @Autowired
