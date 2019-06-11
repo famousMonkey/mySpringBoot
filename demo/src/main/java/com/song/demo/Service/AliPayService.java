@@ -6,4 +6,7 @@ public interface AliPayService {
 
     Boolean pay(String orderId,String authCode,String totalAmount);
 
+    Boolean transfer(String orderId,String amount,String name);
+
+
 }

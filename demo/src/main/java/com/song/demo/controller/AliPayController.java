@@ -4,12 +4,16 @@ package com.song.demo.controller;
 import com.song.demo.Service.AliPayService;
 import com.song.demo.vo.PayVo;
 import com.song.demo.vo.PrecreateVo;
+import com.song.demo.vo.TransferVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.math.BigDecimal;
 
@@ -20,6 +24,7 @@ public class AliPayController {
 
     @Autowired
     private AliPayService aliPayService;
+
 
     @ApiOperation(value = "支付宝扫码支付接口",notes = "订单金额单位元")
     @ResponseBody
@@ -65,6 +70,31 @@ public class AliPayController {
             System.out.println("支付失败");
         }
     }
+
+
+    @ApiOperation(value = "支付宝转账接口",notes = "订单号不能为空")
+    @ResponseBody
+    @PostMapping(value = "/transfer")
+    public void transfer(@RequestBody TransferVo transferVo){
+        if(StringUtils.isBlank(transferVo.getOrderId())){
+            System.out.println("订单号为空");
+        }
+        BigDecimal amount = transferVo.getAmount();
+        BigDecimal myAmount = amount.setScale(2, BigDecimal.ROUND_HALF_UP);//两位小数，四舍五入
+        String price=myAmount.toString();
+        if(StringUtils.isBlank(price)){
+            System.out.println("订单金额为空");
+        }
+        Boolean flag = aliPayService.transfer(transferVo.getOrderId(), price,transferVo.getName());
+        if(flag){
+            System.out.println("支付成功");
+        }else{
+            System.out.println("支付失败");
+        }
+
+    }
+
+
 
 
 

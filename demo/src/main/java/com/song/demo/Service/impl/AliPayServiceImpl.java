@@ -4,9 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.request.AlipayFundTransToaccountTransferRequest;
 import com.alipay.api.request.AlipayTradePayRequest;
 import com.alipay.api.request.AlipayTradePrecreateRequest;
 import com.alipay.api.request.AlipayTradeQueryRequest;
+import com.alipay.api.response.AlipayFundTransToaccountTransferResponse;
 import com.alipay.api.response.AlipayTradePayResponse;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
@@ -94,6 +96,37 @@ public class AliPayServiceImpl implements AliPayService {
 
     }
 
+    /**
+     * @Author 宋正健
+     * @Description //TODO(支付宝转账)
+     * @Date 2019/6/11 14:18
+     * @Param [orderId, amount]
+     * @Return java.lang.Boolean
+     */
+    @Override
+    public Boolean transfer(String orderId, String amount,String name) {
+        AlipayClient aliPayClient = createCommonParam();
+        AlipayFundTransToaccountTransferRequest request = createTransferParam(orderId, amount,name);
+        AlipayFundTransToaccountTransferResponse response = null;
+        try {
+            response  = aliPayClient.execute(request);
+            log.info("支付宝转账返回值："+response.getBody());
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+        if(response.isSuccess()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
+    /**
+     * 查询结果返回标识
+     * @param orderId
+     * @return
+     */
     private Integer query(String orderId){
         AlipayClient alipayClient = createCommonParam();
         AlipayTradeQueryRequest request = createQueryParam(orderId);
@@ -113,6 +146,28 @@ public class AliPayServiceImpl implements AliPayService {
             return 3;//其他
         }
 
+    }
+
+
+    /**
+     * 创建转账参数
+     * @param orderId
+     * @param amount
+     * @return
+     */
+    private AlipayFundTransToaccountTransferRequest createTransferParam(String orderId,String amount,String name){
+        Map<String,String> param=new HashMap<>();
+        param.put("out_biz_no",orderId);
+        param.put("amount",amount);
+        param.put("payee_type","ALIPAY_LOGONID");//ALIPAY_USERID  //收款方账户类型
+        param.put("payee_account","ifklpk3964@sandbox.com");//收款方账户 与payee_type配合使用
+        param.put("payer_show_name",name);//付款方姓名
+        //param.put("payee_real_name","沙箱环境");//收款方真实姓名
+
+        String s = JSON.toJSONString(param);
+        AlipayFundTransToaccountTransferRequest request=new AlipayFundTransToaccountTransferRequest();
+        request.setBizContent(s);
+        return request;
     }
 
 
