@@ -1,24 +1,26 @@
 package com.song.demo.controller;
 
 
+import com.alipay.api.internal.util.AlipaySignature;
 import com.song.demo.Service.AliPayService;
 import com.song.demo.vo.PayVo;
 import com.song.demo.vo.PrecreateVo;
+import com.song.demo.vo.RefundVo;
 import com.song.demo.vo.TransferVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 @RequestMapping(value = "alipay")
 @Controller
+@Slf4j
 @Api(tags="支付操作接口")
 public class AliPayController {
 
@@ -92,6 +94,52 @@ public class AliPayController {
             System.out.println("支付失败");
         }
 
+    }
+
+    @ApiOperation(value = "支付宝退款接口",notes = "订单号不能为空，退款金额不能大于订单金额")
+    @ResponseBody
+    @PostMapping(value = "/redund")
+    public void refund(@RequestBody RefundVo refundVo){
+        if(StringUtils.isBlank(refundVo.getOrderId())){
+            System.out.println("订单号为空");
+        }
+        BigDecimal totalAmount = refundVo.getAmount();
+        BigDecimal myAmount = totalAmount.setScale(2, BigDecimal.ROUND_HALF_UP);//两位小数，四舍五入
+        String price=myAmount.toString();
+        if(StringUtils.isBlank(price)){
+            System.out.println("订单金额为空");
+        }
+        Boolean flag = aliPayService.refund(refundVo.getOrderId(), price);
+        if(flag){
+            System.out.println("退款成功");
+        }else{
+            System.out.println("退款失败");
+        }
+    }
+
+    @ApiOperation(value = "支付宝异步通知接口")
+    @ResponseBody
+    @PostMapping(value = "/callback/notify")
+    public String myNotify(@RequestParam Map<String,String> paramMap) throws Exception{
+        log.info("异步回调进来了=====");
+        //调用SDK验证签名
+        boolean flag =
+                AlipaySignature.rsaCheckV1(paramMap,
+                        "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxMgLRxy9650Bwy+/HSVofDQb0JCZuv0a+/u8SIOiOlCsjEodi9mmVQyUgQ7Kt8PdL0AWKOlM7eif3sBtJqw3pV/KYkQhN6W0seuFQeGRGUlwyoNhCAXxsrTxPLN1CrXiUTGel+tgUk1Nk12kAvn7Wj9jGHwjA9LxdLAlj5VAUpEuy+bhtHGPo+gDXv4GolQXi5WxJEX2uCQEYKGRv4wgUJxSz00QRUUws7sH9idsA83YP5fwkqEBe8TPq7rpagYviLQeWeykXWuhVuGOnlHEBNc3ySGf7kXjk5q4M3qVhUSlD2cD8AOnjcnEx3jrsChhhtsdmWzCXPXUL1OEcmUSVQIDAQAB",
+                        "UTF-8",
+                        "RSA2");
+        log.info("验签是否成功="+flag);
+        if(!flag){
+            return "failure";
+        }
+        String trade_status = paramMap.get("trade_status");
+        if ("TRADE_SUCCESS".equals(trade_status) || "TRADE_FINISHED".equals(trade_status)){
+            //支付成功，修改订单数据
+            String out_trade_no = paramMap.get("out_trade_no");//支付订单号
+            return "success";
+        }else{
+            return"failure";
+        }
     }
 
 

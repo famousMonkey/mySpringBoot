@@ -25,6 +25,14 @@ public class LoginController {
     @Autowired
     private HttpServletRequest request;
 
+    @GetMapping(value = "/check")
+    public void check(){
+        log.info("=======>>>>>>>>>========");
+        String s = request.getHeader("User-Agent");
+        log.info(">>>"+s);
+    }
+
+
     @ResponseBody
     @GetMapping(value = "/getip")
     public String getIpAddress() {
