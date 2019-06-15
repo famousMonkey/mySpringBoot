@@ -196,6 +196,28 @@ public class AliPayServiceImpl implements AliPayService {
 
     /**
      * @Author 宋正健
+     * @Description //TODO(手机网站支付)
+     * @Date 2019/6/15 16:50
+     * @Param [orderId]
+     * @Return java.lang.String
+     */
+    @Override
+    public String wapPay(String orderId){
+        AlipayClient alipayClient = createCommonParam();
+        AlipayTradeWapPayRequest request = createWapPayParam(orderId);
+        String form=null;
+        try {
+            AlipayTradeWapPayResponse response = alipayClient.pageExecute(request);
+            form=response.getBody();
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+        return form;
+    }
+
+
+    /**
+     * @Author 宋正健
      * @Description //TODO(支付宝订单撤销)
      * @Date 2019/6/12 16:44
      * @Param [orderId]
@@ -357,6 +379,27 @@ public class AliPayServiceImpl implements AliPayService {
         return request;
     }
 
+
+    /**
+     * 创建手机网站支付参数
+     * @param orderId
+     * @return
+     */
+    private AlipayTradeWapPayRequest createWapPayParam(String orderId){
+        Map<String,String> param=new HashMap<>();;
+        param.put("subject","测试---");
+        param.put("out_trade_no",orderId);
+        param.put("total_amount","1");//测试 1元
+        param.put("product_code","QUICK_WAP_WAY");
+        AlipayTradeWapPayRequest request=new AlipayTradeWapPayRequest();
+        request.setReturnUrl("http://10.198.1.119:9001/alipay/returnurl");//回调地址
+        request.setNotifyUrl("http://10.198.1.119:9001/alipay/callback/notice");//异步通知地址
+        String s = JSON.toJSONString(param);
+        request.setBizContent(s);
+        return request;
+    }
+
+
     /**
      * 创建公共参数
      * @return
@@ -367,7 +410,7 @@ public class AliPayServiceImpl implements AliPayService {
                         "2016091900549124",
                         "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCVOs5aNZBXmWoXOpD85mV3M2ZobT2oGR8N0vA/KY3WE4GWivK97Bp3dEO36klJ9/0RP+lXcHZweV9k/zKKguPa0OFu1FF0erAVBi8qSe5avBID1gzbiVURpfECtDwrGyCOb9rNMrK8Fb3oFTxN1/7TV4Q487be+2c9k3/WQWHu9hT2WwCliorqpTTog/QS+TMRIISE0+WctyZTmcUFjRCyEme8k030H0FGX8nYDQ1imTfpqLJrzDf4q3Xlg8tRJIVs4OcGeDhz8uSH4C4M0RWoMMbXurPzSzmN2iZ/mpMuL4oHDcOwsBGrT5v0MgkwRDvBb3sriF9fjpqX9mPlxLVXAgMBAAECggEAIN+cd4jXLETydv2C1QNYFMMw6w4th+tIyP3PyMo5oZAYevZO9QGe7vOgu1IUJQRJLlSa7ZUrsik6l4AUPSkKUrizAHwrGXKxeWAsYa95n2lQuqGboX0GTWX1yrezjXdjW51OYOerMf3EIO0UpL1ROHNOAFHH1iUhoBHvFl6+2SnqFqPTzHRnHw+9JaLBI52iJIle1Rd0ZkS6W3y/IUosKLQLiEzyQbBZKOe1KGNKfXUDTLGKKG6rg8+D4IRh/Ga0dtDCCN4n2CEWQxCj3UqWYb/ACeul5HpE8Yyb5AB/BGVMUKD+Dtnsxs7Gk0+8gD5SWmSiOEzOLCPjH2bjkgn66QKBgQD2OeE22G1zoC3sea3wV5OYYyFEKK8/MOerpo+4yE2VGevuYTy1tX5cqdlZ8g6KppJYu7TazBdCS9ftaFsoursFPWoDHUyUfdE9mlrEkNdeY5R0zFuku2sEeSif+yJkZ0KDpTqPoQkchZLZGa2sImoy8ZxmXrFnS0PDtfGyvTlSmwKBgQCbJ0K405UTHZaTnGRNR1f0ZtQev8sKXWRUfqHXpRUc0V5YFcQrf9rGDehDvlZFA1rI8tGD7aSci2H/034GSCpSvwnJX1EdHuGdNTbXg46MVRTeK5QeF+bZdjFwF9XF5JYWySUqzsUymCLEjeiJPj79t2zcpLYVzKczq6Ink0zl9QKBgQCHQQQVvI1jFnojjDOf8nuBGfMMHc0mSRb5k2Ufe+giHzsalw9iQXBINoTOg8i5IQcC9xlBlxqvsDnMj6aDmQ9isXmqfE20w+hMjp2NnIKxtsG15wvwUYNX0bYfKzSZMp+28OxaOXtnz3f7Cb/87mqn0VC4awvIUe/HcgpyxL7YQQKBgCnO/o/HlBg+lODZ971LSEw3mVlf3VrBp9OM/BecCIBnesDJvL7sCQvtm3UFyUF3kfMsW4DtfLoiZRoG56LRt3XsvLpi0PzD4Y/3UvvoG3V9R85Gd/dUAYT/8HqAMb7NxhQFx9otNb5YeKX2h37UIy1DTDZ4vAhLyZKG4X9AliwxAoGALEmViVGBUPkSIPBVEobdRezU9zlG36GSbMymerpbgwluTAHQKc2U/wCMxABwdDZHIbZNQxMe4cX6PlyULALy9Wb+tzWDnz3ZmOcJILQsWwWQM7q5G3IY5O54TZ7ni+t0A5egNjUAQCMSr9+F7i6G7v6slNXCOVbih1yozUcMiEg=",
                         "json",
-                        "GBK",
+                        "utf-8",
                         "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxMgLRxy9650Bwy+/HSVofDQb0JCZuv0a+/u8SIOiOlCsjEodi9mmVQyUgQ7Kt8PdL0AWKOlM7eif3sBtJqw3pV/KYkQhN6W0seuFQeGRGUlwyoNhCAXxsrTxPLN1CrXiUTGel+tgUk1Nk12kAvn7Wj9jGHwjA9LxdLAlj5VAUpEuy+bhtHGPo+gDXv4GolQXi5WxJEX2uCQEYKGRv4wgUJxSz00QRUUws7sH9idsA83YP5fwkqEBe8TPq7rpagYviLQeWeykXWuhVuGOnlHEBNc3ySGf7kXjk5q4M3qVhUSlD2cD8AOnjcnEx3jrsChhhtsdmWzCXPXUL1OEcmUSVQIDAQAB",
                         "RSA2");
         return alipayClient;

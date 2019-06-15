@@ -1,8 +1,10 @@
 package com.song.demo.controller;
 
 
+import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.song.demo.Service.AliPayService;
+import com.song.demo.util.readAliParamUtil;
 import com.song.demo.vo.PayVo;
 import com.song.demo.vo.PrecreateVo;
 import com.song.demo.vo.RefundVo;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.Map;
 
@@ -117,9 +120,18 @@ public class AliPayController {
         }
     }
 
+    @ApiOperation(value = "手机网站支付",notes = "手机网站支付")
+    @ResponseBody
+    @GetMapping(value = "/wap/{orderId}")
+    public String wap(@PathVariable("orderId")String orderId){
+        return aliPayService.wapPay(orderId);
+    }
+
+
+
     @ApiOperation(value = "支付宝异步通知接口")
     @ResponseBody
-    @PostMapping(value = "/callback/notify")
+    @GetMapping(value = "/callback/notify")
     public String myNotify(@RequestParam Map<String,String> paramMap) throws Exception{
         log.info("异步回调进来了=====");
         //调用SDK验证签名
@@ -143,6 +155,15 @@ public class AliPayController {
     }
 
 
+    @GetMapping(value = "/returnurl")
+    public String returnUlr(HttpServletRequest request) throws AlipayApiException {
+        log.info("====我被调用了====");
+        log.info("--开始接收支付宝异步通知--");
+        Map<String, String> map = readAliParamUtil.read(request);
+        log.info("返回参数：\n"+map.toString());
+        request.setAttribute("orderId",map.get("out_trade_no"));
+        return "success";
+    }
 
 
 

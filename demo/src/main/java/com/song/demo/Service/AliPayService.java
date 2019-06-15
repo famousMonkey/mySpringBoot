@@ -10,4 +10,6 @@ public interface AliPayService {
 
     Boolean refund(String orderId,String amount);
 
+    String wapPay(String orderId);
+
 }
