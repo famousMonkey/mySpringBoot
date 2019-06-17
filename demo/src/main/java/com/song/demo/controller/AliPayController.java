@@ -7,7 +7,6 @@ import com.song.demo.Service.AliPayService;
 import com.song.demo.util.readAliParamUtil;
 import com.song.demo.vo.PayVo;
 import com.song.demo.vo.PrecreateVo;
-import com.song.demo.vo.RefundVo;
 import com.song.demo.vo.TransferVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -101,18 +100,12 @@ public class AliPayController {
 
     @ApiOperation(value = "支付宝退款接口",notes = "订单号不能为空，退款金额不能大于订单金额")
     @ResponseBody
-    @PostMapping(value = "/redund")
-    public void refund(@RequestBody RefundVo refundVo){
-        if(StringUtils.isBlank(refundVo.getOrderId())){
+    @GetMapping(value = "/redund/{orderId}")
+    public void refund(@PathVariable("orderId")String orderId){
+        if(StringUtils.isBlank(orderId)){
             System.out.println("订单号为空");
         }
-        BigDecimal totalAmount = refundVo.getAmount();
-        BigDecimal myAmount = totalAmount.setScale(2, BigDecimal.ROUND_HALF_UP);//两位小数，四舍五入
-        String price=myAmount.toString();
-        if(StringUtils.isBlank(price)){
-            System.out.println("订单金额为空");
-        }
-        Boolean flag = aliPayService.refund(refundVo.getOrderId(), price);
+        Boolean flag = aliPayService.refund(orderId);
         if(flag){
             System.out.println("退款成功");
         }else{
@@ -155,9 +148,9 @@ public class AliPayController {
     }
 
 
+    @ApiOperation(value = "支付宝页面跳转接口")
     @GetMapping(value = "/returnurl")
     public String returnUlr(HttpServletRequest request) throws AlipayApiException {
-        log.info("====我被调用了====");
         log.info("--开始接收支付宝异步通知--");
         Map<String, String> map = readAliParamUtil.read(request);
         log.info("返回参数：\n"+map.toString());

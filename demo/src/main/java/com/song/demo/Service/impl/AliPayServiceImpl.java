@@ -19,6 +19,11 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class AliPayServiceImpl implements AliPayService {
 
+
+    private String refundAmount="1";
+    private String wapAmount="1";
+
+
     /*
      * @Author 宋正健
      * @Description //TODO(支付宝扫码支付)
@@ -177,9 +182,9 @@ public class AliPayServiceImpl implements AliPayService {
      * @Return java.lang.Boolean
      */
     @Override
-    public Boolean refund(String orderId, String amount) {
+    public Boolean refund(String orderId) {
         AlipayClient alipayClient = createCommonParam();
-        AlipayTradeRefundRequest request = createRefundParam(orderId, amount);
+        AlipayTradeRefundRequest request = createRefundParam(orderId, refundAmount);
         AlipayTradeRefundResponse response = null;
         try {
             response = alipayClient.execute(request);
@@ -259,13 +264,13 @@ public class AliPayServiceImpl implements AliPayService {
     /**
      * 创建退款参数
      * @param orderId
-     * @param amount
+     * @param refundAmount
      * @return
      */
-    private AlipayTradeRefundRequest createRefundParam(String orderId, String amount){
+    private AlipayTradeRefundRequest createRefundParam(String orderId, String refundAmount){
         Map<String,String> param=new HashMap<>();
         param.put("out_trade_no",orderId);
-        param.put("refund_amount",amount);
+        param.put("refund_amount",refundAmount);
         String s1 = UUID.randomUUID().toString();
         log.info("UUID==>"+s1);
         param.put("out_request_no",s1);//同一笔交易多次退款需要保证唯一，如需部分退款，则此参数必传。
@@ -389,7 +394,7 @@ public class AliPayServiceImpl implements AliPayService {
         Map<String,String> param=new HashMap<>();;
         param.put("subject","测试---");
         param.put("out_trade_no",orderId);
-        param.put("total_amount","1");//测试 1元
+        param.put("total_amount",wapAmount);//测试 1元
         param.put("product_code","QUICK_WAP_WAY");
         AlipayTradeWapPayRequest request=new AlipayTradeWapPayRequest();
         request.setReturnUrl("http://10.198.1.119:9001/alipay/returnurl");//回调地址
