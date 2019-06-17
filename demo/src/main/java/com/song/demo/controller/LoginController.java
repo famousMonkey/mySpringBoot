@@ -26,6 +26,7 @@ public class LoginController {
     private HttpServletRequest request;
 
     @GetMapping(value = "/check")
+    @ResponseBody
     public void check(){
         log.info("=======>>>>>>>>>========");
         String s = request.getHeader("User-Agent");

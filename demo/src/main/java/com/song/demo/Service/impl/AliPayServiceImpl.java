@@ -21,7 +21,7 @@ public class AliPayServiceImpl implements AliPayService {
 
 
     private String refundAmount="1";
-    private String wapAmount="1";
+    private String wapAmount="1.5";
 
 
     /*
@@ -214,6 +214,7 @@ public class AliPayServiceImpl implements AliPayService {
         try {
             AlipayTradeWapPayResponse response = alipayClient.pageExecute(request);
             form=response.getBody();
+            log.info("手机网站返回结果："+form);
         } catch (AlipayApiException e) {
             e.printStackTrace();
         }
