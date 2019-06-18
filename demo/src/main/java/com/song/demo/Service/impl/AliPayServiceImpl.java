@@ -20,8 +20,8 @@ import java.util.concurrent.TimeUnit;
 public class AliPayServiceImpl implements AliPayService {
 
 
-    private String refundAmount="1";
-    private String wapAmount="1.5";
+    private String refundAmount = "1";
+    private String wapAmount = "1.5";
 
 
     /*
@@ -32,67 +32,67 @@ public class AliPayServiceImpl implements AliPayService {
      * @Return java.lang.Boolean
      */
     @Override
-    public Boolean precreate(String orderId,String totalAmount){
-        AlipayClient alipayClient  = createCommonParam();
+    public Boolean precreate(String orderId, String totalAmount) {
+        AlipayClient alipayClient = createCommonParam();
         AlipayTradePrecreateRequest request = createPrecreateParam(orderId, totalAmount);
         AlipayTradePrecreateResponse response = null;
         try {
             response = alipayClient.execute(request);
-            log.info("支付宝扫码支付返回：\n"+response.getBody());
-            log.info("qr_Code："+response.getQrCode());
+            log.info("支付宝扫码支付返回：\n" + response.getBody());
+            log.info("qr_Code：" + response.getQrCode());
         } catch (AlipayApiException e) {
             e.printStackTrace();
         }
-        if(response.isSuccess()){
+        if (response.isSuccess()) {
 
-            int i=1;
-            int j=1;
-            while(true){
+            int i = 1;
+            int j = 1;
+            while (true) {
                 Integer result = query(orderId);
-                if(1==result){
+                if (1 == result) {
                     return true;
-                }else if(2==result){
+                } else if (2 == result) {
                     try {
                         TimeUnit.SECONDS.sleep(5);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    log.info("第"+i+"次查询支付结果");
+                    log.info("第" + i + "次查询支付结果");
                     ++i;
-                    if(i==5){
+                    if (i == 5) {
                         Boolean cancelMark = cancel(orderId);
-                        if(cancelMark){
+                        if (cancelMark) {
                             log.info("撤销成功");
                             return true;
-                        }else{
+                        } else {
                             log.info("撤销失败");
                             return false;
                         }
                     }
-                }else{
+                } else {
                     try {
-                        TimeUnit.SECONDS.sleep(5*j);
+                        TimeUnit.SECONDS.sleep(5 * j);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     ++j;
-                    if(j==6){
-                        log.info("第"+j+"次等待预支付结果");
+                    if (j == 6) {
+                        log.info("第" + j + "次等待预支付结果");
                         Boolean cancelMark = cancel(orderId);
-                        if(cancelMark){
+                        if (cancelMark) {
                             log.info("撤销成功");
                             return true;
-                        }else{
+                        } else {
                             log.info("撤销失败");
                             return false;
                         }
-                    }else{
-                        log.info("第"+j+"次等待预支付结果");
+                    } else {
+                        log.info("第" + j + "次等待预支付结果");
                     }
                 }
             }
         } else {
-           return false;
+            return false;
         }
     }
 
@@ -110,37 +110,37 @@ public class AliPayServiceImpl implements AliPayService {
         AlipayTradePayResponse response = null;
         try {
             response = alipayClient.execute(request);
-            log.info("付款码支付结果："+response.getBody());
+            log.info("付款码支付结果：" + response.getBody());
         } catch (AlipayApiException e) {
             e.printStackTrace();
         }
-        if(response.isSuccess()){
+        if (response.isSuccess()) {
             return true;
-        }else {
-            int i=1;
-            while(true){
+        } else {
+            int i = 1;
+            while (true) {
                 Integer result = query(orderId);
-                if(1==result){
+                if (1 == result) {
                     return true;
-                }else if(2==result){
+                } else if (2 == result) {
                     try {
                         TimeUnit.SECONDS.sleep(5);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    log.info("第"+i+"次查询支付结果");
+                    log.info("第" + i + "次查询支付结果");
                     ++i;
-                    if(i==5){
+                    if (i == 5) {
                         Boolean cancelMark = cancel(orderId);
-                        if(cancelMark){
+                        if (cancelMark) {
                             log.info("撤销成功");
                             return true;
-                        }else{
+                        } else {
                             log.info("撤销失败");
                             return false;
                         }
                     }
-                }else{
+                } else {
                     return false;
                 }
             }
@@ -157,19 +157,19 @@ public class AliPayServiceImpl implements AliPayService {
      * @Return java.lang.Boolean
      */
     @Override
-    public Boolean transfer(String orderId, String amount,String name) {
+    public Boolean transfer(String orderId, String amount, String name) {
         AlipayClient aliPayClient = createCommonParam();
-        AlipayFundTransToaccountTransferRequest request = createTransferParam(orderId, amount,name);
+        AlipayFundTransToaccountTransferRequest request = createTransferParam(orderId, amount, name);
         AlipayFundTransToaccountTransferResponse response = null;
         try {
-            response  = aliPayClient.execute(request);
-            log.info("支付宝转账返回值："+response.getBody());
+            response = aliPayClient.execute(request);
+            log.info("支付宝转账返回值：" + response.getBody());
         } catch (AlipayApiException e) {
             e.printStackTrace();
         }
-        if(response.isSuccess()){
+        if (response.isSuccess()) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -188,13 +188,13 @@ public class AliPayServiceImpl implements AliPayService {
         AlipayTradeRefundResponse response = null;
         try {
             response = alipayClient.execute(request);
-            log.info("支付宝退款结果："+response.getBody());
+            log.info("支付宝退款结果：" + response.getBody());
         } catch (AlipayApiException e) {
             e.printStackTrace();
         }
-        if(response.isSuccess()){
+        if (response.isSuccess()) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -207,14 +207,14 @@ public class AliPayServiceImpl implements AliPayService {
      * @Return java.lang.String
      */
     @Override
-    public String wapPay(String orderId){
+    public String wapPay(String orderId) {
         AlipayClient alipayClient = createCommonParam();
         AlipayTradeWapPayRequest request = createWapPayParam(orderId);
-        String form=null;
+        String form = null;
         try {
             AlipayTradeWapPayResponse response = alipayClient.pageExecute(request);
-            form=response.getBody();
-            log.info("手机网站返回结果："+form);
+            form = response.getBody();
+            log.info("手机网站返回结果：" + form);
         } catch (AlipayApiException e) {
             e.printStackTrace();
         }
@@ -229,19 +229,19 @@ public class AliPayServiceImpl implements AliPayService {
      * @Param [orderId]
      * @Return java.lang.Boolean
      */
-    private Boolean cancel(String orderId){
+    private Boolean cancel(String orderId) {
         AlipayClient alipayClient = createCommonParam();
         AlipayTradeCancelRequest request = createCancelParam(orderId);
         AlipayTradeCancelResponse response = null;
         try {
             response = alipayClient.execute(request);
-            log.info("撤销订单返回结果："+response.getBody());
+            log.info("撤销订单返回结果：" + response.getBody());
         } catch (AlipayApiException e) {
             e.printStackTrace();
         }
-        if(response.isSuccess()){
+        if (response.isSuccess()) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -249,14 +249,15 @@ public class AliPayServiceImpl implements AliPayService {
 
     /**
      * 创建撤销参数
+     *
      * @param orderId
      * @return
      */
-    private AlipayTradeCancelRequest createCancelParam(String orderId){
-        Map<String,String> param=new HashMap<>();
-        param.put("out_trade_no",orderId);
+    private AlipayTradeCancelRequest createCancelParam(String orderId) {
+        Map<String, String> param = new HashMap<>();
+        param.put("out_trade_no", orderId);
         String s = JSON.toJSONString(param);
-        AlipayTradeCancelRequest request=new AlipayTradeCancelRequest();
+        AlipayTradeCancelRequest request = new AlipayTradeCancelRequest();
         request.setBizContent(s);
         return request;
     }
@@ -264,19 +265,20 @@ public class AliPayServiceImpl implements AliPayService {
 
     /**
      * 创建退款参数
+     *
      * @param orderId
      * @param refundAmount
      * @return
      */
-    private AlipayTradeRefundRequest createRefundParam(String orderId, String refundAmount){
-        Map<String,String> param=new HashMap<>();
-        param.put("out_trade_no",orderId);
-        param.put("refund_amount",refundAmount);
+    private AlipayTradeRefundRequest createRefundParam(String orderId, String refundAmount) {
+        Map<String, String> param = new HashMap<>();
+        param.put("out_trade_no", orderId);
+        param.put("refund_amount", refundAmount);
         String s1 = UUID.randomUUID().toString();
-        log.info("UUID==>"+s1);
-        param.put("out_request_no",s1);//同一笔交易多次退款需要保证唯一，如需部分退款，则此参数必传。
+        log.info("UUID==>" + s1);
+        param.put("out_request_no", s1);//同一笔交易多次退款需要保证唯一，如需部分退款，则此参数必传。
         String s = JSON.toJSONString(param);
-        AlipayTradeRefundRequest request=new AlipayTradeRefundRequest();
+        AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
         request.setBizContent(s);
         return request;
     }
@@ -284,25 +286,26 @@ public class AliPayServiceImpl implements AliPayService {
 
     /**
      * 查询结果返回标识
+     *
      * @param orderId
      * @return
      */
-    private Integer query(String orderId){
+    private Integer query(String orderId) {
         AlipayClient alipayClient = createCommonParam();
         AlipayTradeQueryRequest request = createQueryParam(orderId);
         AlipayTradeQueryResponse response = null;
         try {
             response = alipayClient.execute(request);
-            log.info("查询结果：\n"+response.getBody());
+            log.info("查询结果：\n" + response.getBody());
         } catch (AlipayApiException e) {
             e.printStackTrace();
         }
-        if("TRADE_SUCCESS".equalsIgnoreCase(response.getTradeStatus())){
+        if ("TRADE_SUCCESS".equalsIgnoreCase(response.getTradeStatus())) {
             return 1;//支付成功
         }
-        if("WAIT_BUYER_PAY".equalsIgnoreCase(response.getTradeStatus())){
+        if ("WAIT_BUYER_PAY".equalsIgnoreCase(response.getTradeStatus())) {
             return 2;//等待用户支付
-        }else{
+        } else {
             return 3;//其他
         }
 
@@ -311,21 +314,22 @@ public class AliPayServiceImpl implements AliPayService {
 
     /**
      * 创建转账参数
+     *
      * @param orderId
      * @param amount
      * @return
      */
-    private AlipayFundTransToaccountTransferRequest createTransferParam(String orderId,String amount,String name){
-        Map<String,String> param=new HashMap<>();
-        param.put("out_biz_no",orderId);
-        param.put("amount",amount);
-        param.put("payee_type","ALIPAY_LOGONID");//ALIPAY_USERID  //收款方账户类型
-        param.put("payee_account","ifklpk3964@sandbox.com");//收款方账户 与payee_type配合使用
-        param.put("payer_show_name",name);//付款方姓名
+    private AlipayFundTransToaccountTransferRequest createTransferParam(String orderId, String amount, String name) {
+        Map<String, String> param = new HashMap<>();
+        param.put("out_biz_no", orderId);
+        param.put("amount", amount);
+        param.put("payee_type", "ALIPAY_LOGONID");//ALIPAY_USERID  //收款方账户类型
+        param.put("payee_account", "ifklpk3964@sandbox.com");//收款方账户 与payee_type配合使用
+        param.put("payer_show_name", name);//付款方姓名
         //param.put("payee_real_name","沙箱环境");//收款方真实姓名
 
         String s = JSON.toJSONString(param);
-        AlipayFundTransToaccountTransferRequest request=new AlipayFundTransToaccountTransferRequest();
+        AlipayFundTransToaccountTransferRequest request = new AlipayFundTransToaccountTransferRequest();
         request.setBizContent(s);
         return request;
     }
@@ -333,17 +337,18 @@ public class AliPayServiceImpl implements AliPayService {
 
     /**
      * 创建扫码支付参数
+     *
      * @param orderId
      * @param totalAmount
      * @return
      */
-    private AlipayTradePrecreateRequest createPrecreateParam(String orderId,String totalAmount){
-        Map<String,String> param=new HashMap<>();
-        param.put("out_trade_no",orderId);
-        param.put("total_amount",totalAmount);
-        param.put("subject","小海豚智慧油站");
-        param.put("notify_url","http://10.198.1.119:9001/alipay/callback/notify");
-        param.put("qr_code_timeout_express","90m");
+    private AlipayTradePrecreateRequest createPrecreateParam(String orderId, String totalAmount) {
+        Map<String, String> param = new HashMap<>();
+        param.put("out_trade_no", orderId);
+        param.put("total_amount", totalAmount);
+        param.put("subject", "小海豚智慧油站");
+        param.put("notify_url", "http://10.198.1.119:9001/alipay/callback/notify");
+        param.put("qr_code_timeout_express", "90m");
         String s = JSON.toJSONString(param);
         AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();
         request.setBizContent(s);
@@ -352,18 +357,19 @@ public class AliPayServiceImpl implements AliPayService {
 
     /**
      * 创建付款码支付参数
+     *
      * @param orderId
      * @param totalAmount
      * @return
      */
-    private AlipayTradePayRequest createPayParam(String orderId,String authCode,String totalAmount){
-        Map<String,String> param=new HashMap<>();
-        param.put("out_trade_no",orderId);
-        param.put("scene","bar_code");
-        param.put("auth_code",authCode);
-        param.put("total_amount",totalAmount);
-        param.put("subject","小海豚智慧油站");
-        param.put("qtimeout_express","2m");
+    private AlipayTradePayRequest createPayParam(String orderId, String authCode, String totalAmount) {
+        Map<String, String> param = new HashMap<>();
+        param.put("out_trade_no", orderId);
+        param.put("scene", "bar_code");
+        param.put("auth_code", authCode);
+        param.put("total_amount", totalAmount);
+        param.put("subject", "小海豚智慧油站");
+        param.put("qtimeout_express", "2m");
 
         String s = JSON.toJSONString(param);
         AlipayTradePayRequest request = new AlipayTradePayRequest();
@@ -373,12 +379,13 @@ public class AliPayServiceImpl implements AliPayService {
 
     /**
      * 创建查询参数
+     *
      * @param orderId
      * @return
      */
-    private AlipayTradeQueryRequest createQueryParam(String orderId){
-        Map<String,String> param=new HashMap<>();
-        param.put("out_trade_no",orderId);
+    private AlipayTradeQueryRequest createQueryParam(String orderId) {
+        Map<String, String> param = new HashMap<>();
+        param.put("out_trade_no", orderId);
         String s = JSON.toJSONString(param);
         AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
         request.setBizContent(s);
@@ -388,16 +395,18 @@ public class AliPayServiceImpl implements AliPayService {
 
     /**
      * 创建手机网站支付参数
+     *
      * @param orderId
      * @return
      */
-    private AlipayTradeWapPayRequest createWapPayParam(String orderId){
-        Map<String,String> param=new HashMap<>();;
-        param.put("subject","测试---");
-        param.put("out_trade_no",orderId);
-        param.put("total_amount",wapAmount);//测试 1元
-        param.put("product_code","QUICK_WAP_WAY");
-        AlipayTradeWapPayRequest request=new AlipayTradeWapPayRequest();
+    private AlipayTradeWapPayRequest createWapPayParam(String orderId) {
+        Map<String, String> param = new HashMap<>();
+        ;
+        param.put("subject", "测试---");
+        param.put("out_trade_no", orderId);
+        param.put("total_amount", wapAmount);//测试 1元
+        param.put("product_code", "QUICK_WAP_WAY");
+        AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
         request.setReturnUrl("http://10.198.1.119:9001/alipay/returnurl");//回调地址
         request.setNotifyUrl("http://10.198.1.119:9001/alipay/callback/notice");//异步通知地址
         String s = JSON.toJSONString(param);
@@ -408,9 +417,10 @@ public class AliPayServiceImpl implements AliPayService {
 
     /**
      * 创建公共参数
+     *
      * @return
      */
-    private AlipayClient createCommonParam(){
+    private AlipayClient createCommonParam() {
         AlipayClient alipayClient =
                 new DefaultAlipayClient("https://openapi.alipaydev.com/gateway.do",
                         "2016091900549124",
