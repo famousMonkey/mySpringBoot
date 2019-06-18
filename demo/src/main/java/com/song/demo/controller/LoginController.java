@@ -28,8 +28,8 @@ public class LoginController {
     private Integer myType;
 
     @GetMapping(value = "/check")
-    @ResponseBody
     public void check(){
+        System.out.println("版本回退联系");
         log.info("=======>>>>>>>>>========");
         String s = request.getHeader("User-Agent");
         log.info(">>>"+s);
