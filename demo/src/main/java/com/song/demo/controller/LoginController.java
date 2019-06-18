@@ -25,6 +25,8 @@ public class LoginController {
     @Autowired
     private HttpServletRequest request;
 
+    private Integer myType;
+
     @GetMapping(value = "/check")
     @ResponseBody
     public void check(){
@@ -137,6 +139,27 @@ public class LoginController {
             return "fail";
         }
     }
+
+    @GetMapping(value = "/init/{type}")
+    @ResponseBody
+    public String initType(@PathVariable("type")Integer type){
+        myType=type;
+        System.out.println("type="+myType);
+        return myType.toString();
+    }
+
+    @GetMapping(value = "/out")
+    @ResponseBody
+    public String outType(){
+        if(myType==null){
+            return "myType is null";
+        }else if(myType==1){
+            return "myType = 1";
+        }else{
+            return "myType = other";
+        }
+    }
+
 
 
 
