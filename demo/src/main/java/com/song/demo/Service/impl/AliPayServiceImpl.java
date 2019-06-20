@@ -21,7 +21,7 @@ public class AliPayServiceImpl implements AliPayService {
 
 
     private String refundAmount = "1";
-    private String wapAmount = "1.5";
+    private String wapAmount = "0.01";
 
 
     /*
@@ -402,7 +402,7 @@ public class AliPayServiceImpl implements AliPayService {
     private AlipayTradeWapPayRequest createWapPayParam(String orderId) {
         Map<String, String> param = new HashMap<>();
         ;
-        param.put("subject", "测试---");
+        param.put("subject", "手机网站支付-123");
         param.put("out_trade_no", orderId);
         param.put("total_amount", wapAmount);//测试 1元
         param.put("product_code", "QUICK_WAP_WAY");
