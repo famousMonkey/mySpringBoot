@@ -10,6 +10,8 @@ import com.song.demo.Service.AliPayService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -20,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class AliPayServiceImpl implements AliPayService {
 
 
-    private String refundAmount = "1";
+    private String refundAmount = "0.1";
     private String wapAmount = "0.01";
 
 
@@ -222,6 +224,54 @@ public class AliPayServiceImpl implements AliPayService {
     }
 
 
+    @Override
+    public String app(String orderId, String totalAmount) {
+        AlipayClient alipayClient = createCommonParam();
+        AlipayTradeAppPayRequest request = createAppParam(orderId, totalAmount);
+        AlipayTradeAppPayResponse response=null;
+        try {
+            response = alipayClient.pageExecute(request);
+            log.info("app:"+response);
+            log.info("app支付请求结果："+response.getBody());
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+        if(response.isSuccess()){
+            return response.getBody();
+        }else{
+            return "支付失败";
+        }
+
+    }
+
+    /**
+     * @Author 宋正健
+     * @Description //TODO(创建APP支付参数)
+     * @Date 2019/6/20 21:00
+     * @Param [orderId, totalAmount]
+     * @Return com.alipay.api.request.AlipayTradeAppPayRequest
+     */
+    private AlipayTradeAppPayRequest createAppParam(String orderId,String totalAmount){
+        Map<String, String> param = new HashMap<>();
+        param.put("out_trade_no", orderId);
+        param.put("total_amount",totalAmount);
+        String message=null;
+        try {
+            message = URLEncoder.encode("支付-app支付", "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        param.put("subject",message);
+        String s = JSON.toJSONString(param);
+        AlipayTradeAppPayRequest request=new AlipayTradeAppPayRequest();
+        request.setBizContent(s);
+        return request;
+    }
+
+
+
+
+
     /**
      * @Author 宋正健
      * @Description //TODO(支付宝订单撤销)
@@ -401,7 +451,6 @@ public class AliPayServiceImpl implements AliPayService {
      */
     private AlipayTradeWapPayRequest createWapPayParam(String orderId) {
         Map<String, String> param = new HashMap<>();
-        ;
         param.put("subject", "手机网站支付-123");
         param.put("out_trade_no", orderId);
         param.put("total_amount", wapAmount);//测试 1元

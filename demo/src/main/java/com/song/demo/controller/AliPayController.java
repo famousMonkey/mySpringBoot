@@ -113,6 +113,14 @@ public class AliPayController {
         }
     }
 
+    @ApiOperation(value = "app支付",notes = "app支付")
+    @ResponseBody
+    @GetMapping(value = "/app/{orderId}")
+    public String app(@PathVariable("orderId")String orderId){
+       return aliPayService.app(orderId,"1");
+    }
+
+
     @ApiOperation(value = "手机网站支付",notes = "手机网站支付")
     @ResponseBody
     @GetMapping(value = "/wap/{orderId}")
