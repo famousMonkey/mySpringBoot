@@ -32,5 +32,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     compile group: 'com.google.zxing', name: 'core', version: '3.3.0'
     compile group: 'com.google.zxing', name: 'javase', version: '3.3.0'
+    //阿里云推送消息
+    implementation 'com.aliyun:aliyun-java-sdk-push:3.10.1'
+    implementation 'com.aliyun:aliyun-java-sdk-core:[4.3.2,5.0.0)'
     
 }
