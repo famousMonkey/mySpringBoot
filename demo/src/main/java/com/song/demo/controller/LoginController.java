@@ -73,6 +73,8 @@ public class LoginController {
         return ip;
     }
 
+
+
     @ResponseBody
     @GetMapping(value = "/allpay")
     public String allPay(){
