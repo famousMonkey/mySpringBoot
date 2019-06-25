@@ -162,7 +162,24 @@ public class LoginController {
         }
     }
 
+    @GetMapping(value = "/testFilter")
+    public String testFilter(@RequestParam(name = "aa") String value){
+        request.setAttribute("bb",value);
+        log.info("bb的值="+request.getAttribute("bb").toString());
+        return "login";
+    }
 
+    @GetMapping(value = "/testException/{myValue}")
+    @ResponseBody
+    public String testException(@PathVariable("myValue")String value) throws Exception {
+        if("1".equals(value)){
+            throw new Exception("1123");
+        }else if("2".equals(value)){
+            throw new NullPointerException("2123");
+        }else{
+            return "asd";
+        }
+    }
 
 
 }
