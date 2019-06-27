@@ -20,6 +20,7 @@ public class CommonException {
 
     @ExceptionHandler(value = NullPointerException.class)
     public String myNullPointerException(){
+
         return "我的空指针异常";
     }
 
