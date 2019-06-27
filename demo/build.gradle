@@ -37,5 +37,9 @@ dependencies {
     implementation 'com.aliyun:aliyun-java-sdk-core:[4.3.2,5.0.0)'
     //rabbitmq
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    //httpclient
+    implementation('org.apache.httpcomponents:httpclient')
+    implementation('org.apache.httpcomponents:httpcore')
+    implementation('org.apache.httpcomponents:httpmime')
     
 }
