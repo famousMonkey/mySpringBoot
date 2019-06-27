@@ -35,5 +35,7 @@ dependencies {
     //阿里云推送消息
     implementation 'com.aliyun:aliyun-java-sdk-push:3.10.1'
     implementation 'com.aliyun:aliyun-java-sdk-core:[4.3.2,5.0.0)'
+    //rabbitmq
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
     
 }
