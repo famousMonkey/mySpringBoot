@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class AliPayServiceImpl implements AliPayService {
 
 
-    private String refundAmount = "0.1";
+    private String refundAmount = "0.01";
     private String wapAmount = "0.01";
 
 
