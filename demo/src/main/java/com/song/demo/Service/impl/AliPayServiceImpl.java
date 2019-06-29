@@ -223,7 +223,13 @@ public class AliPayServiceImpl implements AliPayService {
         return form;
     }
 
-
+    /*
+     * @Author 宋正健
+     * @Description //TODO(app支付)
+     * @Date 2019/6/28 15:34
+     * @Param [orderId, totalAmount]
+     * @Return java.lang.String
+     */
     @Override
     public String app(String orderId, String totalAmount) {
         AlipayClient alipayClient = createCommonParam();

@@ -129,7 +129,6 @@ public class AliPayController {
     }
 
 
-
     @ApiOperation(value = "支付宝异步通知接口")
     @ResponseBody
     @GetMapping(value = "/callback/notify")
