@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 @Api(tags = "练习接口")
 public class LoginController {
 
+
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
@@ -26,6 +27,7 @@ public class LoginController {
     private HttpServletRequest request;
 
     private Integer myType;
+    
 
     @GetMapping(value = "/check")
     public void check(){
