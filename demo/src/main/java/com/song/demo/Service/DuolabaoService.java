@@ -4,6 +4,10 @@ import com.song.demo.constant.Result;
 
 public interface DuolabaoService {
 
-    Result payCreate();
+    Result payCreate(String requestNum);
+    Result createPayUrl(String requestNum);
+    Result refund(String requestNum);
+    Result refundPart(String requestNum,String refundPartAmount);
+    Result payResult(String requestNum);
 
 }
