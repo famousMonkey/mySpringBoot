@@ -152,6 +152,89 @@ public class DuolabaoServiceImpl implements DuolabaoService {
     }
 
 
+    @Override
+    public Result close(String requestNum) {
+        String request = createCloseParam(requestNum);
+        String url="https://openapi.duolabao.com/v1/customer/order/close";
+        Map response = sendRequest(request, url);
+        log.info("关闭返回结果:"+response.toString());
+        if("fail".equalsIgnoreCase(response.get("result").toString())){
+            log.info("》》》》失败====");
+            String error = response.get("error").toString();
+            Map map=(Map) JSON.parse(error);
+            return new Result(false,map.get("errorMsg").toString());
+        }else if("error".equalsIgnoreCase(response.get("result").toString())){
+            log.info("》》》》异常====");
+            String error = response.get("error").toString();
+            Map map=(Map) JSON.parse(error);
+            return new Result(false,map.get("errorCode").toString());
+        }else{
+            log.info("》》》》成功====");
+            String data = response.get("data").toString();
+            Map map=(Map) JSON.parse(data);
+            return new Result(true,map.get("orderNum").toString());
+        }
+    }
+
+
+    @Override
+    public Result cancel(String requestNum) {
+        String request = createCancelParam(requestNum);
+        String url="https://openapi.duolabao.com/v2/customer/order/cancel";
+        Map response = sendRequest(request, url);
+        log.info("撤销返回结果:"+response.toString());
+        if("fail".equalsIgnoreCase(response.get("result").toString())){
+            log.info("》》》》失败====");
+            String error = response.get("error").toString();
+            Map map=(Map) JSON.parse(error);
+            return new Result(false,map.get("errorMsg").toString());
+        }else if("error".equalsIgnoreCase(response.get("result").toString())){
+            log.info("》》》》异常====");
+            String error = response.get("error").toString();
+            Map map=(Map) JSON.parse(error);
+            return new Result(false,map.get("errorCode").toString());
+        }else{
+            log.info("》》》》成功====");
+            String data = response.get("data").toString();
+            Map map=(Map) JSON.parse(data);
+            return new Result(true,map.get("orderNum").toString());
+        }
+    }
+
+
+    /**
+     * @Author 宋正健
+     * @Description //TODO(撤销参数创建)
+     * @Date 2019/7/1 11:22
+     * @Param [requestNum]
+     * @Return java.lang.String
+     */
+    private String createCancelParam(String requestNum){
+        Map<String,String> param=new HashMap<>();
+        param.put("customerNum","10001114596730086163709");
+        param.put("requestNum",requestNum);
+        param.put("bankRequestNum","10031115009669622861143");
+        return JSON.toJSONString(param);
+    }
+
+
+
+    /**
+     * @Author 宋正健
+     * @Description //TODO(关闭参数创建)
+     * @Date 2019/7/1 11:20
+     * @Param [requestNum]
+     * @Return java.lang.String
+     */
+    private String createCloseParam(String requestNum){
+        Map<String,String> param=new HashMap<>();
+        param.put("customerNum","10001114596730086163709");
+        param.put("requestNum",requestNum);
+        param.put("bankRequestNum","10031115009669622861143");
+        return JSON.toJSONString(param);
+    }
+
+
     /**
      * @Author 宋正健
      * @Description //TODO(创建订单支付结果查询参数)
@@ -159,7 +242,7 @@ public class DuolabaoServiceImpl implements DuolabaoService {
      * @Param [requestNum]
      * @Return java.lang.String
      */
-    public Map<String,String> createPayResultParam(String requestNum){
+    private Map<String,String> createPayResultParam(String requestNum){
         Map<String,String> param=new HashMap<>();
         param.put("customerNum","10001114596730086163709");
         param.put("shopNum","10001214641783052104486");

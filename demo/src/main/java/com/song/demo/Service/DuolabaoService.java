@@ -9,5 +9,7 @@ public interface DuolabaoService {
     Result refund(String requestNum);
     Result refundPart(String requestNum,String refundPartAmount);
     Result payResult(String requestNum);
+    Result close(String requestNum);
+    Result cancel(String requestNum);
 
 }
