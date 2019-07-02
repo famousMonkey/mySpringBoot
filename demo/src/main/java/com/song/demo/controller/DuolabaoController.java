@@ -86,7 +86,7 @@ public class DuolabaoController {
 
     @GetMapping(value = "/myNotify")
     @ApiOperation(value = "哆啦宝支付完成通知",notes = "该接口提供所有哆啦宝商户对接，支付成功后哆啦宝系统会将订单状态的结果通知到代理商回调地址中。如果调用回调地址失败，哆啦宝系统会重新发起请求，重试5次，每次间隔5秒，5次后仍未成功，则不重试。")
-    public void duolabaoNotify(@RequestParam(value = "requestNum")String requestNum,@RequestParam(value = "status")String status,@RequestParam(value = "orderAmount")String orderAmount){
+    public void duolabaoNotify(@RequestParam(value = "requestNum",required = false)String requestNum,@RequestParam(value = "status",required = false)String status,@RequestParam(value = "orderAmount",required = false)String orderAmount){
         System.out.println("========接收哆啦宝异步通知========");
         log.info("订单编号："+requestNum);
         log.info("支付状态："+status);
