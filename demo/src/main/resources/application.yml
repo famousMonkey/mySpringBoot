@@ -1,0 +1,11 @@
+my:
+  name: monkey
+  age: 500
+
+your:
+  resource:
+    aaa,bbb,ccc,ddd
+  map:
+    k1: v1,
+    k2: v2,
+    k3: v3

@@ -1,6 +1,9 @@
 package com.song.demo.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.song.demo.constant.MyResource;
+import com.song.demo.constant.MyResource2;
+import com.song.demo.constant.MyResource3;
 import com.song.demo.constant.Result;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -26,8 +31,47 @@ public class LoginController {
     @Autowired
     private HttpServletRequest request;
 
+    @Autowired
+    private MyResource myResource;
+
+    @Autowired
+    private MyResource2 myResource2;
+
+    @Autowired
+    private MyResource3 myResource3;
+
     private Integer myType;
-    
+
+    @GetMapping(value = "myValue3")
+    @ResponseBody
+    public String myValue3(){
+        return myResource3.toString();
+    }
+
+
+    @GetMapping(value = "myValue2")
+    @ResponseBody
+    public String myValue2(){
+        List<String> myList = myResource2.getResource();
+        Map<String, String> map = myResource2.getMap();
+        System.out.println("==========list===========");
+        for (String s : myList) {
+            System.out.println("----> "+s);
+        }
+        System.out.println("==========map===========");
+        for (String s : map.keySet()) {
+            System.out.println("----> "+s+" = "+map.get(s));
+        }
+        return myResource2.toString();
+    }
+
+
+    @GetMapping(value = "myValue")
+    @ResponseBody
+    public String myValue(){
+        return myResource.toString();
+    }
+
 
     @GetMapping(value = "/check")
     public void check(){
