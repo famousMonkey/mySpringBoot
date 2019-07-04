@@ -45,6 +45,10 @@ public class LoginController {
     @GetMapping(value = "myValue3")
     @ResponseBody
     public String myValue3(){
+        List<String> hobby = myResource3.getHobby();
+        for (String s : hobby) {
+            System.out.println("--> "+s);
+        }
         return myResource3.toString();
     }
 
