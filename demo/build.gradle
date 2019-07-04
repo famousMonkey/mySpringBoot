@@ -22,8 +22,28 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-//    implementation 'org.springframework.boot:spring-boot-starter-web-services'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'com.alipay.sdk:alipay-sdk-java:3.4.49.ALL'
+    implementation 'io.springfox:springfox-swagger2:2.7.0'
+    implementation 'io.springfox:springfox-swagger-ui:2.7.0'
+    implementation 'com.alibaba:fastjson:1.2.47'
+    //implementation 'org.springframework.boot:spring-boot-configuration-processor'
+    //implementation 'org.springframework.boot:spring-boot-autoconfigure:2.1.0.RELEASE'
     compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.apache.commons:commons-lang3'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    compile group: 'com.google.zxing', name: 'core', version: '3.3.0'
+    compile group: 'com.google.zxing', name: 'javase', version: '3.3.0'
+    //阿里云推送消息
+    implementation 'com.aliyun:aliyun-java-sdk-push:3.10.1'
+    implementation 'com.aliyun:aliyun-java-sdk-core:[4.3.2,5.0.0)'
+    //rabbitmq
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    //httpclient
+    implementation('org.apache.httpcomponents:httpclient')
+    implementation('org.apache.httpcomponents:httpcore')
+    implementation('org.apache.httpcomponents:httpmime')
+
+    
+    
 }
