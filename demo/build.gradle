@@ -43,6 +43,12 @@ dependencies {
     implementation('org.apache.httpcomponents:httpclient')
     implementation('org.apache.httpcomponents:httpcore')
     implementation('org.apache.httpcomponents:httpmime')
+    // 加入新版MySQL依赖
+    implementation('mysql:mysql-connector-java:8.0.12')
+    // 加入spring-jpa依赖
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+    implementation('commons-beanutils:commons-beanutils:1.8.3')
+    
 
     
     
