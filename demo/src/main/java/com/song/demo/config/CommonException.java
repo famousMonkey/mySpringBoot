@@ -15,13 +15,13 @@ public class CommonException {
 
     @ExceptionHandler(value = Exception.class)
     public String myException(){
-        return "我的异常111";
+        return "WOW--我的自定义异常";
     }
 
     @ExceptionHandler(value = NullPointerException.class)
     public String myNullPointerException(){
 
-        return "我的空指针异常";
+        return "WOW--我的空指针异常";
     }
 
 

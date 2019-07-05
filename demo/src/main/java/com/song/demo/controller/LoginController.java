@@ -6,6 +6,7 @@ import com.song.demo.constant.MyResource2;
 import com.song.demo.constant.MyResource3;
 import com.song.demo.constant.Result;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,24 @@ public class LoginController {
     private MyResource3 myResource3;
 
     private Integer myType;
+
+
+    @ApiOperation(value = "测试全局异常",notes = "全局异常")
+    @GetMapping(value="/testException" )
+    @ResponseBody
+    public String testException(@RequestParam(value = "tag",required = false)String tag){
+        if("123".equalsIgnoreCase(tag)){
+            return tag;
+        }
+        if("456".equalsIgnoreCase(tag)){
+            throw new RuntimeException();
+        }
+        if("789".equalsIgnoreCase(tag)){
+            throw new NullPointerException();
+        }
+        return "smile";
+    }
+
 
     @GetMapping(value = "myValue3")
     @ResponseBody
@@ -218,18 +237,5 @@ public class LoginController {
         log.info("bb的值="+request.getAttribute("bb").toString());
         return "login";
     }
-
-    @GetMapping(value = "/testException/{myValue}")
-    @ResponseBody
-    public String testException(@PathVariable("myValue")String value) throws Exception {
-        if("1".equals(value)){
-            throw new Exception("1123");
-        }else if("2".equals(value)){
-            throw new NullPointerException("2123");
-        }else{
-            return "asd";
-        }
-    }
-
 
 }

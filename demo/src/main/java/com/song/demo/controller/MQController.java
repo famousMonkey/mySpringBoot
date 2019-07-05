@@ -2,12 +2,10 @@ package com.song.demo.controller;
 
 import com.song.demo.entity.Student;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -27,6 +25,7 @@ public class MQController {
     private AmqpTemplate rabbitmqTemplate;
 
     @GetMapping("/send/{message}")
+    @ApiOperation(value = "消息队列练习",notes = "发消息和接收消息")
     public String send(@PathVariable("message") String message){
         Student stu=new Student();
         stu.setId(UUID.randomUUID().toString().replace("-",""));
@@ -36,5 +35,4 @@ public class MQController {
         rabbitmqTemplate.convertAndSend("famous","123"+message);
         return "消息："+message;
     }
-
 }
