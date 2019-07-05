@@ -46,6 +46,7 @@ public class LoginController {
 
     @GetMapping(value = "/testException")
     @ApiOperation(value = "测试全局异常",notes = "全局异常")
+    @ResponseBody
     public String testException(@RequestParam(value = "tag",required = false)String tag){
         if("123".equalsIgnoreCase(tag)){
             return tag;
