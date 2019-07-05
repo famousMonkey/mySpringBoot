@@ -1,5 +1,6 @@
 package com.song.demo.config;
 
+import com.song.demo.entity.Student;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -25,8 +26,8 @@ public class Consumer {
 
     @RabbitListener(queues = "monkey")
     @RabbitHandler
-    public void process1 (String message) {
-        log.info("222接收的消息为: {}", message);
+    public void process1 (Student student) {
+        log.info("222接收的消息为: {}", student.toString());
     }
 
 }
