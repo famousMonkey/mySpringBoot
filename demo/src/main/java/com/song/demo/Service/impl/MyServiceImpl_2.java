@@ -18,4 +18,9 @@ public class MyServiceImpl_2 implements MyService {
     public void sayHi(String name) {
         log.info("my name is "+name+" , Hello!");
     }
+
+    @Override
+    public void introduce(String param) {
+        System.out.println(param+" 测试异步调用222222222");
+    }
 }

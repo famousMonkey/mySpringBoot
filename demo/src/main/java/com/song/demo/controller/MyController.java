@@ -31,5 +31,15 @@ public class MyController {
         System.out.println("名字："+name);
         myService.sayHi(name);
     }
+    @ApiOperation(value = "@Async练习",notes = "异步调用注解")
+    @GetMapping(value = "/{param}")
+    public String introduce(@PathVariable(value = "param")String param){
+        System.out.println("==========> start");
+        myService.introduce(param);
+        long time = System.currentTimeMillis();
+        System.out.println("==========> end "+time);
+        return "amazing";
+    }
+
 
 }
