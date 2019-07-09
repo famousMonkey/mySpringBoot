@@ -33,7 +33,7 @@ public class SHAUtils {
                 buf[k++] = hexDigits[byte0 >>> 4 & 0xf];
                 buf[k++] = hexDigits[byte0 & 0xf];
             }
-            return new String(buf);
+            return new String(buf).toUpperCase();
         } catch (Exception e) {
             return null;
         }

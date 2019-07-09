@@ -5,7 +5,6 @@ import com.song.demo.Service.DuolabaoService;
 import com.song.demo.constant.Result;
 import com.song.demo.util.SHAUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -20,6 +19,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName: DuolabaoServiceImpl
@@ -34,31 +34,37 @@ public class DuolabaoServiceImpl implements DuolabaoService {
 
 
     @Override
-    public Result payCreate(String requestNum) {
+    public Map payCreate(String requestNum) {
         String param = createParam(requestNum);
         String url="/v1/customer/order/pay/create";
         Map response = sendRequest(param, url);
         log.info("支付订单返回结果:"+response.toString());
-        if(StringUtils.isNotBlank(response.get("error").toString())){
+/*        if(StringUtils.isNotBlank(response.get("error").toString())){
             String s = response.get("error").toString();
             Map map=(Map) JSON.parse(s);
             return new Result(false,map.get("errorMsg").toString());
-        }
+        }*/
         if("fail".equalsIgnoreCase(response.get("result").toString())){
             log.info("》》》》失败====");
             String error = response.get("error").toString();
             Map map=(Map) JSON.parse(error);
-            return new Result(false,map.get("errorMsg").toString());
+            map.put("status","Fail");
+            //return new Result(false,map.get("errorMsg").toString());
+            return map;
         }else if("error".equalsIgnoreCase(response.get("result").toString())){
             log.info("》》》》异常====");
             String error = response.get("error").toString();
             Map map=(Map) JSON.parse(error);
-            return new Result(false,map.get("errorCode").toString());
+            map.put("status","Error");
+            //return new Result(false,map.get("errorCode").toString());
+            return map;
         }else{
             log.info("》》》》成功====");
             String data = response.get("data").toString();
             Map map=(Map) JSON.parse(data);
-            return new Result(true,map.get("orderNum").toString());
+            map.put("status","Success");
+            //return new Result(true,map.get("bankRequest").toString());
+            return map;
         }
     }
 
@@ -209,6 +215,90 @@ public class DuolabaoServiceImpl implements DuolabaoService {
     }
 
 
+    @Override
+    public Result passive(String requestNum, String authCode, String amount) {
+        String request = createAuthCodeParam(requestNum, authCode, amount);
+        String url="/v1/customer/passive/create";
+        Map response = sendRequest(request, url);
+        log.info("哆啦宝付款码支付结果:"+response.toString());
+        if("fail".equalsIgnoreCase(response.get("result").toString())){
+            log.info("》》》》失败====");
+            String error = response.get("error").toString();
+            Map map=(Map) JSON.parse(error);
+            return new Result(false,map.get("errorMsg").toString());
+        }else if("error".equalsIgnoreCase(response.get("result").toString())){
+            log.info("》》》》异常====");
+            String error = response.get("error").toString();
+            Map map=(Map) JSON.parse(error);
+            return new Result(false,map.get("errorCode").toString());
+        }else{
+            log.info("》》》》成功====");
+            //查询支付结果
+            Map myMap = queryPassive(requestNum);
+            return new Result(true,myMap.get("message").toString());
+        }
+    }
+
+
+    /**
+     * @Author 宋正健
+     * @Description //TODO(查询付款码支付结果并根据结果返回)
+     * @Date 2019/7/9 14:02
+     * @Param [requestNum]
+     * @Return java.util.Map
+     */
+    private Map queryPassive(String requestNum){
+        Map<String,String> resultMsg=new HashMap<>();
+        Map<String, String> request = createPayResultParam(requestNum);
+        String url="/v1/customer/order/payresult";
+        int i=0;
+        while(true){
+            Map response = sendQueryRequest(request, url);
+            String result = (String)response.get("result");
+            log.info("查询哆啦宝付款码支付连接结果== "+result);
+            try {
+                TimeUnit.SECONDS.sleep(3);
+                ++i;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if("success".equalsIgnoreCase(result)){
+                Map<String,String> data = (Map)response.get("data");
+                log.info("哆啦宝付款码支付查询返回数据：\n"+data);
+                String myStatus = data.get("status");
+                log.info("支付结果状态："+myStatus);
+                if("SUCCESS".equalsIgnoreCase(myStatus)){
+                    log.info("支付完成...");
+                    resultMsg.put("status","success");
+                    resultMsg.put("message","支付成功");
+                    return resultMsg;
+                }else if("INIT".equalsIgnoreCase(myStatus)){
+                    log.info("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"+i+"\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
+                    if(i==6){
+                        log.info("支付超时...");
+                        resultMsg.put("status","fail");
+                        resultMsg.put("message","支付超时，请重新支付");
+                        return resultMsg;
+                    }else{
+                        log.info("支付中...");
+                        continue;
+                    }
+                }else {
+                    log.info("其他情况...");
+                    resultMsg.put("status","fail");
+                    resultMsg.put("message",data.get("remark"));
+                    return resultMsg;
+                }
+            }else {
+                resultMsg.put("status","fail");
+                resultMsg.put("message","获取付款码支付结果异常");
+                return resultMsg;
+            }
+        }
+
+    }
+
+
     /**
      * @Author 宋正健
      * @Description //TODO(撤销参数创建)
@@ -306,7 +396,7 @@ public class DuolabaoServiceImpl implements DuolabaoService {
         map.put("requestNum",requestNum);
         map.put("source","API");
         map.put("amount","0.02");
-        map.put("callbackUrl","openapi.duolabao.com/duolaba/myNotify");//(可选)交易完成后，会调用此地址通知交易结果(目前只有交易成功会通知)
+        map.put("callbackUrl","http://adsgodlove.vicp.cc:44674/payservice/duolabaoNotify");//(可选)交易完成后，会调用此地址通知交易结果(目前只有交易成功会通知)
         return JSON.toJSONString(map);
     }
 
@@ -325,9 +415,27 @@ public class DuolabaoServiceImpl implements DuolabaoService {
         map.put("shopNum","10001215614594802297762");
         map.put("requestNum",requestNum);
         map.put("amount","0.01");
-        map.put("bankType","ALIPAY");
+        map.put("bankType","WX_XCX");
         map.put("authId","ocUQv5f8Yh-UDOOHzD8Eg5NyT2NI");
-        map.put("callbackUrl","https://www.duolabao.com/duolaba/myNotify");
+        map.put("callbackUrl","http://adsgodlove.vicp.cc:44674/payservice/duolabaoNotify");
+        return JSON.toJSONString(map);
+    }
+
+    /**
+     * @Author 宋正健
+     * @Description //TODO(创建哆啦宝商家被扫参数)
+     * @Date 2019/7/9 10:05
+     * @Param [requestNum, authCode, amount]
+     * @Return java.lang.String
+     */
+    private String createAuthCodeParam(String requestNum,String authCode,String amount){
+        Map<String,String> map=new HashMap<>();
+        map.put("customerNum","10001115525569710821582");
+        map.put("shopNum","10001215614594802297762");
+        map.put("requestNum",requestNum);
+        map.put("amount",amount);
+        map.put("authCode",authCode);
+        map.put("source","API");
         return JSON.toJSONString(map);
     }
 

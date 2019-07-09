@@ -1,5 +1,6 @@
 package com.song.demo.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.song.demo.Service.DuolabaoService;
 import com.song.demo.constant.Result;
 import io.swagger.annotations.Api;
@@ -7,6 +8,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * @ClassName: DuolabaoController
@@ -27,9 +30,9 @@ public class DuolabaoController {
     @GetMapping(value = "/payCreate/{requestNum}")
     @ApiOperation(value = "哆啦宝创建支付订单",notes = "商户直接调用此接口，返回调起支付所需支付要素，如微信和微信小程序可以直接调起微信支付。")
     public String payCreate(@PathVariable("requestNum")String requestNum){
-        Result result = duolabaoService.payCreate(requestNum);
+        Map<String, String> result = duolabaoService.payCreate(requestNum);
         log.info("支付订单-controller=>>"+result.toString());
-        return result.getMessage();
+        return JSON.toJSONString(result);
 
     }
 
@@ -63,6 +66,14 @@ public class DuolabaoController {
     public String query(@PathVariable(value = "requestNum")String requestNum){
         Result result = duolabaoService.payResult(requestNum);
         log.info("查询-controller=>>"+result.toString());
+        return result.getMessage();
+    }
+
+    @GetMapping(value = "/passive/{requestNum}/{authCode}/{amount}")
+    @ApiOperation(value = "哆啦宝商户被扫接口",notes="该接口提供商户收银系统或哆啦宝商户APP扫用户手机付款码进行支付时使用， 用户打开微信(支付宝)付款界面，商户收银系统或哆啦宝商户APP扫描用户付款二维码或条码进行收款。")
+    public String passive(@PathVariable(value = "requestNum")String requestNum,@PathVariable(value = "authCode")String authCode,@PathVariable(value = "amount")String amount){
+        Result result = duolabaoService.passive(requestNum, authCode, amount);
+        log.info("付款码-controller=>>"+result.toString());
         return result.getMessage();
     }
 
