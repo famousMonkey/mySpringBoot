@@ -23,7 +23,7 @@ import java.io.*;
 public class DownloadFile {
 
     @GetMapping(value = "/download")
-    @ApiOperation(value = "文件下载",notes = "文件下载")
+    @ApiOperation(value = "文件下载",notes = "测试文件下载，文件路径是写死的")
     public File download(HttpServletRequest request, HttpServletResponse response) throws IOException {
         File file = new File("d:\\Users\\meatball\\system\\file\\2019-07-09\\1562659145954.xls");
         //1.获取要下载的文件的绝对路径
