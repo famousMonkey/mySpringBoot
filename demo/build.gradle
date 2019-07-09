@@ -48,6 +48,7 @@ dependencies {
     // 加入spring-jpa依赖
     implementation('org.springframework.boot:spring-boot-starter-data-jpa')
     implementation('commons-beanutils:commons-beanutils:1.8.3')
+
     
 
     
