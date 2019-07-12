@@ -6,8 +6,8 @@ import java.util.Map;
 
 public interface DuolabaoService {
 
-    Map<String,String> payCreate(String requestNum);
-    Result createPayUrl(String requestNum);
+    Map<String,String> payCreate(String requestNum,String authId);
+    Result createPayUrl(String requestNum,String amount);
     Result refund(String requestNum);
     Result refundPart(String requestNum,String refundPartAmount);
     Result payResult(String requestNum);

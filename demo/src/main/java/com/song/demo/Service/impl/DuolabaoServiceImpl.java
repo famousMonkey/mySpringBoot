@@ -2,6 +2,7 @@ package com.song.demo.Service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.song.demo.Service.DuolabaoService;
+import com.song.demo.config.DlbConfig;
 import com.song.demo.constant.Result;
 import com.song.demo.util.SHAUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -33,9 +35,12 @@ import java.util.concurrent.TimeUnit;
 public class DuolabaoServiceImpl implements DuolabaoService {
 
 
+    @Autowired
+    private DlbConfig dlbConfig;
+
     @Override
-    public Map payCreate(String requestNum) {
-        String param = createParam(requestNum);
+    public Map payCreate(String requestNum,String authId) {
+        String param = createParam(requestNum,authId);
         String url="/v1/customer/order/pay/create";
         Map response = sendRequest(param, url);
         log.info("支付订单返回结果:"+response.toString());
@@ -69,8 +74,8 @@ public class DuolabaoServiceImpl implements DuolabaoService {
     }
 
     @Override
-    public Result createPayUrl(String requestNum) {
-        String urlParam = createUrlParam(requestNum);
+    public Result createPayUrl(String requestNum,String amount) {
+        String urlParam = createUrlParam(requestNum,amount);
         String url="/v1/customer/order/payurl/create";
         Map response = sendRequest(urlParam, url);
         log.info("支付链接返回结果:"+response.toString());
@@ -308,7 +313,7 @@ public class DuolabaoServiceImpl implements DuolabaoService {
      */
     private String createCancelParam(String requestNum){
         Map<String,String> param=new HashMap<>();
-        param.put("customerNum","10001115525569710821582");
+        param.put("customerNum",dlbConfig.getCustomerNum());
         param.put("requestNum",requestNum);
         param.put("bankRequestNum","10031115009669622861143");
         return JSON.toJSONString(param);
@@ -325,7 +330,7 @@ public class DuolabaoServiceImpl implements DuolabaoService {
      */
     private String createCloseParam(String requestNum){
         Map<String,String> param=new HashMap<>();
-        param.put("customerNum","10001115525569710821582");
+        param.put("customerNum",dlbConfig.getCustomerNum());
         param.put("requestNum",requestNum);
         param.put("bankRequestNum","10031115009669622861143");
         return JSON.toJSONString(param);
@@ -341,8 +346,8 @@ public class DuolabaoServiceImpl implements DuolabaoService {
      */
     private Map<String,String> createPayResultParam(String requestNum){
         Map<String,String> param=new HashMap<>();
-        param.put("customerNum","10001115525569710821582");
-        param.put("shopNum","10001215614594802297762");
+        param.put("customerNum",dlbConfig.getCustomerNum());
+        param.put("shopNum",dlbConfig.getShopNum());
         param.put("requestNum",requestNum);
         return param;
     }
@@ -358,8 +363,8 @@ public class DuolabaoServiceImpl implements DuolabaoService {
      */
     private String createRefundPartParam(String requestNum,String refundPartAmount){
         Map<String,String> map=new HashMap<>();
-        map.put("customerNum","10001115525569710821582");
-        map.put("shopNum","10001215614594802297762");
+        map.put("customerNum",dlbConfig.getCustomerNum());
+        map.put("shopNum",dlbConfig.getShopNum());
         map.put("requestNum",requestNum);
         map.put("refundPartAmount",refundPartAmount);
         return JSON.toJSONString(map);
@@ -375,8 +380,8 @@ public class DuolabaoServiceImpl implements DuolabaoService {
      */
     private String createRefundParam(String requestNum){
         Map<String,String> map=new HashMap<>();
-        map.put("customerNum","10001115525569710821582");
-        map.put("shopNum","10001215614594802297762");
+        map.put("customerNum",dlbConfig.getCustomerNum());
+        map.put("shopNum",dlbConfig.getShopNum());
         map.put("requestNum",requestNum);
         return JSON.toJSONString(map);
     }
@@ -389,14 +394,14 @@ public class DuolabaoServiceImpl implements DuolabaoService {
      * @Param [requestNum]
      * @Return java.lang.String
      */
-    private String createUrlParam(String requestNum){
+    private String createUrlParam(String requestNum,String amount){
         Map<String,String> map=new HashMap<>();
-        map.put("customerNum","10001115525569710821582");
-        map.put("shopNum","10001215614594802297762");
+        map.put("customerNum",dlbConfig.getCustomerNum());
+        map.put("shopNum",dlbConfig.getShopNum());
         map.put("requestNum",requestNum);
         map.put("source","API");
-        map.put("amount","0.02");
-        map.put("callbackUrl","http://adsgodlove.vicp.cc:44674/payservice/duolabaoNotify");//(可选)交易完成后，会调用此地址通知交易结果(目前只有交易成功会通知)
+        map.put("amount",amount);
+        map.put("callbackUrl",dlbConfig.getCallbackUrl());//(可选)交易完成后，会调用此地址通知交易结果(目前只有交易成功会通知)
         return JSON.toJSONString(map);
     }
 
@@ -409,15 +414,15 @@ public class DuolabaoServiceImpl implements DuolabaoService {
      * @Param []
      * @Return java.lang.String
      */
-    private String createParam(String requestNum){
+    private String createParam(String requestNum,String authId){
         Map<String,String> map=new HashMap<>();
-        map.put("customerNum","10001115525569710821582");
-        map.put("shopNum","10001215614594802297762");
+        map.put("customerNum",dlbConfig.getCustomerNum());
+        map.put("shopNum",dlbConfig.getShopNum());
         map.put("requestNum",requestNum);
         map.put("amount","0.01");
         map.put("bankType","WX_XCX");
-        map.put("authId","ocUQv5f8Yh-UDOOHzD8Eg5NyT2NI");
-        map.put("callbackUrl","http://adsgodlove.vicp.cc:44674/payservice/duolabaoNotify");
+        map.put("authId",authId);
+        map.put("callbackUrl",dlbConfig.getCallbackUrl());
         return JSON.toJSONString(map);
     }
 
@@ -430,8 +435,8 @@ public class DuolabaoServiceImpl implements DuolabaoService {
      */
     private String createAuthCodeParam(String requestNum,String authCode,String amount){
         Map<String,String> map=new HashMap<>();
-        map.put("customerNum","10001115525569710821582");
-        map.put("shopNum","10001215614594802297762");
+        map.put("customerNum",dlbConfig.getCustomerNum());
+        map.put("shopNum",dlbConfig.getShopNum());
         map.put("requestNum",requestNum);
         map.put("amount",amount);
         map.put("authCode",authCode);
@@ -453,10 +458,10 @@ public class DuolabaoServiceImpl implements DuolabaoService {
         HttpPost httpPost = new HttpPost(myUrl);
         StringEntity body = new StringEntity(param, "utf-8");
         httpPost.setEntity(body);
-        httpPost.addHeader("accessKey","3b80943398cb4194a48a89abf81deb4b1633a815");
+        httpPost.addHeader("accessKey",dlbConfig.getAccessKey());
         Long time = new Date().getTime();
         httpPost.addHeader("timestamp",time.toString());
-        String my="secretKey=4fcfda16f7a14905bdda6daa9a6ea3eb5444533c&timestamp="+time.toString()+"&path="+url+"&body="+param;
+        String my="secretKey="+dlbConfig.getSecretKey()+"&timestamp="+time.toString()+"&path="+url+"&body="+param;
         System.out.println("==生成token所需字符串==\n"+my);
         String s = SHAUtils.SHA1(my).toUpperCase();
         System.out.println("==生成的token==\n"+s);
@@ -485,15 +490,22 @@ public class DuolabaoServiceImpl implements DuolabaoService {
         return myRes;
     }
 
+    /**
+     * @Author 宋正健
+     * @Description //TODO(发送哆啦宝查询请求)
+     * @Date 2019/7/12 14:04
+     * @Param [param, url]
+     * @Return java.util.Map
+     */
     private Map sendQueryRequest(Map<String,String> param,String url){
         CloseableHttpClient httpClient = HttpClients.createDefault();
         String myUrl="https://openapi.duolabao.com/"+url+"/"+param.get("customerNum")+"/"+param.get("shopNum")+"/"+param.get("requestNum");
         log.info("\n查询结果请求地址：\n"+myUrl+"\n");
         HttpGet httpGet=new HttpGet(myUrl);
-        httpGet.addHeader("accessKey","3b80943398cb4194a48a89abf81deb4b1633a815");
+        httpGet.addHeader("accessKey",dlbConfig.getAccessKey());
         Long time = new Date().getTime();
         httpGet.addHeader("timestamp",time.toString());
-        String my="secretKey=4fcfda16f7a14905bdda6daa9a6ea3eb5444533c&timestamp="+time.toString()+"&path="+url+"/"+param.get("customerNum")+"/"+param.get("shopNum")+"/"+param.get("requestNum");
+        String my="secretKey="+dlbConfig.getSecretKey()+"&timestamp="+time.toString()+"&path="+url+"/"+param.get("customerNum")+"/"+param.get("shopNum")+"/"+param.get("requestNum");
         System.out.println("==生成token所需字符串==\n"+my);
         String s = SHAUtils.SHA1(my).toUpperCase();
         System.out.println("==生成的token==\n"+s);

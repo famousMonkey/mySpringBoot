@@ -27,19 +27,19 @@ public class DuolabaoController {
     @Autowired
     private DuolabaoService duolabaoService;
 
-    @GetMapping(value = "/payCreate/{requestNum}")
+    @GetMapping(value = "/payCreate/{requestNum}/{authId}")
     @ApiOperation(value = "哆啦宝创建支付订单",notes = "商户直接调用此接口，返回调起支付所需支付要素，如微信和微信小程序可以直接调起微信支付。")
-    public String payCreate(@PathVariable("requestNum")String requestNum){
-        Map<String, String> result = duolabaoService.payCreate(requestNum);
+    public String payCreate(@PathVariable("requestNum")String requestNum,@PathVariable("authId")String authId){
+        Map<String, String> result = duolabaoService.payCreate(requestNum,authId);
         log.info("支付订单-controller=>>"+result.toString());
         return JSON.toJSONString(result);
 
     }
 
-    @GetMapping(value = "/urlCreate/{requestNum}")
+    @GetMapping(value = "/urlCreate/{requestNum}/{amount}")
     @ApiOperation(value = "哆啦宝创建支付链接",notes = "商户通过该接口创建交易的支付链接，可通过扫码进入哆啦宝固定金额支付页面。")
-    public String urlCreate(@PathVariable("requestNum")String requestNum){
-        Result result = duolabaoService.createPayUrl(requestNum);
+    public String urlCreate(@PathVariable("requestNum")String requestNum,@PathVariable("amount") String amount){
+        Result result = duolabaoService.createPayUrl(requestNum,amount);
         log.info("支付链接-controller=>>"+result.toString());
         return result.getMessage();
     }

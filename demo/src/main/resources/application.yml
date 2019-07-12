@@ -9,3 +9,10 @@ your:
     k1: v1,
     k2: v2,
     k3: v3
+
+dlb:
+  accessKey: c892b2e78a9947638e075f51d0fff4d1f3aad64b
+  secretKey: e7e59a713ce54b81b1131322e3bb3173513270c9
+  customerNum: 10001115626588386620056
+  shopNum: 10001215626593159947259
+  callbackUrl: http://adsgodlove.vicp.cc:44674/payservice/duolabaoNotify
