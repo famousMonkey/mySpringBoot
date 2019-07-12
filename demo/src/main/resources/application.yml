@@ -16,3 +16,10 @@ dlb:
   customerNum: 10001115626588386620056
   shopNum: 10001215626593159947259
   callbackUrl: http://adsgodlove.vicp.cc:44674/payservice/duolabaoNotify
+
+dlb2:
+  accessKey: 3b80943398cb4194a48a89abf81deb4b1633a815
+  secretKey: 4fcfda16f7a14905bdda6daa9a6ea3eb5444533c
+  customerNum: 10001115525569710821582
+  shopNum: 10001215525571169599125
+  callbackUrl: http://adsgodlove.vicp.cc:44674/payservice/duolabaoNotify

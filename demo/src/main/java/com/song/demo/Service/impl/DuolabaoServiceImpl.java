@@ -44,32 +44,36 @@ public class DuolabaoServiceImpl implements DuolabaoService {
         String url="/v1/customer/order/pay/create";
         Map response = sendRequest(param, url);
         log.info("支付订单返回结果:"+response.toString());
-/*        if(StringUtils.isNotBlank(response.get("error").toString())){
+        String error1 = JSON.toJSONString(response.get("error"));
+        log.info("error1:"+error1);
+        if(!"null".equalsIgnoreCase(error1)){
             String s = response.get("error").toString();
             Map map=(Map) JSON.parse(s);
-            return new Result(false,map.get("errorMsg").toString());
-        }*/
-        if("fail".equalsIgnoreCase(response.get("result").toString())){
-            log.info("》》》》失败====");
-            String error = response.get("error").toString();
-            Map map=(Map) JSON.parse(error);
             map.put("status","Fail");
-            //return new Result(false,map.get("errorMsg").toString());
-            return map;
-        }else if("error".equalsIgnoreCase(response.get("result").toString())){
-            log.info("》》》》异常====");
-            String error = response.get("error").toString();
-            Map map=(Map) JSON.parse(error);
-            map.put("status","Error");
-            //return new Result(false,map.get("errorCode").toString());
             return map;
         }else{
-            log.info("》》》》成功====");
-            String data = response.get("data").toString();
-            Map map=(Map) JSON.parse(data);
-            map.put("status","Success");
-            //return new Result(true,map.get("bankRequest").toString());
-            return map;
+            if("fail".equalsIgnoreCase(response.get("result").toString())){
+                log.info("》》》》失败====");
+                String error = response.get("error").toString();
+                Map map=(Map) JSON.parse(error);
+                map.put("status","Fail");
+                //return new Result(false,map.get("errorMsg").toString());
+                return map;
+            }else if("error".equalsIgnoreCase(response.get("result").toString())){
+                log.info("》》》》异常====");
+                String error = response.get("error").toString();
+                Map map=(Map) JSON.parse(error);
+                map.put("status","Error");
+                //return new Result(false,map.get("errorCode").toString());
+                return map;
+            }else{
+                log.info("》》》》成功====");
+                String data = response.get("data").toString();
+                Map map=(Map) JSON.parse(data);
+                map.put("status","Success");
+                //return new Result(true,map.get("bankRequest").toString());
+                return map;
+            }
         }
     }
 
@@ -163,9 +167,13 @@ public class DuolabaoServiceImpl implements DuolabaoService {
             return new Result(false,map.get("errorCode").toString());
         }else{
             log.info("》》》》成功====");
-            String data = response.get("data").toString();
-            Map map=(Map) JSON.parse(data);
-            return new Result(true,map.get("status").toString());
+            if(response.get("data")!=null){
+                String data = response.get("data").toString();
+                Map map=(Map) JSON.parse(data);
+                return new Result(true,map.get("status").toString());
+            }else{
+                return new Result(false,"没有查到支付信息");
+            }
         }
     }
 
@@ -215,7 +223,7 @@ public class DuolabaoServiceImpl implements DuolabaoService {
             log.info("》》》》成功====");
             String data = response.get("data").toString();
             Map map=(Map) JSON.parse(data);
-            return new Result(true,map.get("orderNum").toString());
+            return new Result(true,map.get("requestNum").toString());
         }
     }
 
@@ -279,8 +287,11 @@ public class DuolabaoServiceImpl implements DuolabaoService {
                     return resultMsg;
                 }else if("INIT".equalsIgnoreCase(myStatus)){
                     log.info("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"+i+"\n>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
-                    if(i==6){
+                    if(i==3){
                         log.info("支付超时...");
+                        Result cancel = cancel(requestNum);
+                        log.info(cancel.toString());
+                        log.info("=======");
                         resultMsg.put("status","fail");
                         resultMsg.put("message","支付超时，请重新支付");
                         return resultMsg;
