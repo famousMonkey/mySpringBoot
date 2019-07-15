@@ -10,6 +10,7 @@ your:
     k2: v2,
     k3: v3
 
+#正式
 dlb:
   accessKey: c892b2e78a9947638e075f51d0fff4d1f3aad64b
   secretKey: e7e59a713ce54b81b1131322e3bb3173513270c9
@@ -17,6 +18,7 @@ dlb:
   shopNum: 10001215626593159947259
   callbackUrl: http://adsgodlove.vicp.cc:44674/payservice/duolabaoNotify
 
+#测试
 dlb2:
   accessKey: 3b80943398cb4194a48a89abf81deb4b1633a815
   secretKey: 4fcfda16f7a14905bdda6daa9a6ea3eb5444533c
