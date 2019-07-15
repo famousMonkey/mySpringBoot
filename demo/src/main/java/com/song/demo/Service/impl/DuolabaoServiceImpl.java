@@ -35,9 +35,9 @@ import java.util.concurrent.TimeUnit;
 public class DuolabaoServiceImpl implements DuolabaoService {
 
 
+
     @Autowired
     private DlbConfig dlbConfig;
-
     @Override
     public Map payCreate(String requestNum,String authId) {
         String param = createParam(requestNum,authId);
@@ -484,6 +484,8 @@ public class DuolabaoServiceImpl implements DuolabaoService {
             response = httpClient.execute(httpPost);
             HttpEntity entity = response.getEntity();
             String context = EntityUtils.toString(entity, "UTF-8");
+            Map<String,String> data = (Map)JSON.parseObject(context).get("data");
+            log.info("获取JSON：\n"+data);
             myRes = JSON.parseObject(context,Map.class);
             log.info("请求结果:\n" + context);
         } catch (Exception e) {
