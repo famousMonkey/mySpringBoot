@@ -8,11 +8,11 @@ public interface AliPayService {
 
     Boolean transfer(String orderId,String amount,String name);
 
-    Boolean refund(String orderId);
+    Boolean refund(String orderId,String amount);
 
     String app(String orderId,String totalAmount);
 
-    String wapPay(String orderId);
+    String wapPay(String orderId,String amount);
 
 
 }

@@ -100,12 +100,12 @@ public class AliPayController {
 
     @ApiOperation(value = "支付宝退款接口",notes = "订单号不能为空，退款金额不能大于订单金额")
     @ResponseBody
-    @GetMapping(value = "/redund/{orderId}")
-    public void refund(@PathVariable("orderId")String orderId){
+    @GetMapping(value = "/redund/{orderId}/{amount}")
+    public void refund(@PathVariable("orderId")String orderId,@PathVariable("amount")String amount){
         if(StringUtils.isBlank(orderId)){
             System.out.println("订单号为空");
         }
-        Boolean flag = aliPayService.refund(orderId);
+        Boolean flag = aliPayService.refund(orderId,amount);
         if(flag){
             System.out.println("退款成功");
         }else{
@@ -123,9 +123,9 @@ public class AliPayController {
 
     @ApiOperation(value = "手机网站支付",notes = "手机网站支付")
     @ResponseBody
-    @GetMapping(value = "/wap/{orderId}")
-    public String wap(@PathVariable("orderId")String orderId){
-        return aliPayService.wapPay(orderId);
+    @GetMapping(value = "/wap/{orderId}/{amount}")
+    public String wap(@PathVariable("orderId")String orderId,@PathVariable("amount")String amount){
+        return aliPayService.wapPay(orderId,amount);
     }
 
 

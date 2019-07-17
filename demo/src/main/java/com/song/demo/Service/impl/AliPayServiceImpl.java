@@ -22,7 +22,6 @@ import java.util.concurrent.TimeUnit;
 public class AliPayServiceImpl implements AliPayService {
 
 
-    private String refundAmount = "0.01";
     private String wapAmount = "0.01";
 
 
@@ -184,9 +183,9 @@ public class AliPayServiceImpl implements AliPayService {
      * @Return java.lang.Boolean
      */
     @Override
-    public Boolean refund(String orderId) {
+    public Boolean refund(String orderId,String amount) {
         AlipayClient alipayClient = createCommonParam();
-        AlipayTradeRefundRequest request = createRefundParam(orderId, refundAmount);
+        AlipayTradeRefundRequest request = createRefundParam(orderId, amount);
         AlipayTradeRefundResponse response = null;
         try {
             response = alipayClient.execute(request);
@@ -209,9 +208,9 @@ public class AliPayServiceImpl implements AliPayService {
      * @Return java.lang.String
      */
     @Override
-    public String wapPay(String orderId) {
+    public String wapPay(String orderId,String amount) {
         AlipayClient alipayClient = createCommonParam();
-        AlipayTradeWapPayRequest request = createWapPayParam(orderId);
+        AlipayTradeWapPayRequest request = createWapPayParam(orderId,amount);
         String form = null;
         try {
             AlipayTradeWapPayResponse response = alipayClient.pageExecute(request);
@@ -455,11 +454,11 @@ public class AliPayServiceImpl implements AliPayService {
      * @param orderId
      * @return
      */
-    private AlipayTradeWapPayRequest createWapPayParam(String orderId) {
+    private AlipayTradeWapPayRequest createWapPayParam(String orderId,String amount) {
         Map<String, String> param = new HashMap<>();
         param.put("subject", "手机网站支付-123");
         param.put("out_trade_no", orderId);
-        param.put("total_amount", wapAmount);//测试 1元
+        param.put("total_amount", amount);
         param.put("product_code", "QUICK_WAP_WAY");
         AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
         request.setReturnUrl("http://10.198.1.119:9001/alipay/returnurl");//回调地址
