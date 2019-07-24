@@ -50,6 +50,10 @@ dependencies {
     implementation('commons-beanutils:commons-beanutils:1.8.3')
     //解决Spring Boot Configuration.....not in classpath
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    //
+    implementation('net.sf.json-lib:json-lib:2.4:jdk15')
+    //poi
+    implementation('org.apache.poi:poi-ooxml:3.9')
 
     
 
