@@ -35,5 +35,12 @@ public class TLController {
     }
 
 
+    @ApiOperation(value = "统一支付接口",notes = "请求扫码支付的二维码串")
+    @GetMapping(value = "/pay/{total}/{openId}")
+    public Map<String,String> pay(@PathVariable("total")String total,@PathVariable("openId")String openId) throws Exception {
+        return tlService.pay(total,openId);
+    }
+
+
 
 }
