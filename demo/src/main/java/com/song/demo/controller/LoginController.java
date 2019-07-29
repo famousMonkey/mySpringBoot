@@ -201,9 +201,7 @@ public class LoginController {
     @GetMapping(value = "/getvalue")
     public String getRedisKey(){
         log.info("我被调用了。。。");
-        String value = stringRedisTemplate.opsForValue().get("wwwsssaaaddd");
-        String s = JSON.parseObject(value, String.class);
-        if(s!=null){
+        if(stringRedisTemplate.hasKey("wwwsssaaaddd")){
             return "index";
         }else{
             return "fail";
