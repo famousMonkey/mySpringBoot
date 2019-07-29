@@ -42,4 +42,11 @@ public class CLTController {
         return cltService.prepay(totalAmount);
     }
 
+    @ResponseBody
+    @GetMapping("/payStatus/{orderCode}")
+    @ApiOperation(value = "获取订单支付状态",notes = "订单状态")
+    public String payStatus(@PathVariable("orderCode")String orderCode){
+        return cltService.jmccPayStatus(orderCode);
+    }
+
 }

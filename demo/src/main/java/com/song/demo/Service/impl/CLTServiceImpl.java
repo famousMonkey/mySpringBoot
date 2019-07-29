@@ -85,6 +85,35 @@ public class CLTServiceImpl implements CLTService {
     }
 
 
+    /**
+     * @Author 宋正健
+     * @Description //TODO(获取订单支付状态)
+     * @Date 2019/7/26 16:46
+     * @Param [orderCode]
+     * @Return java.lang.String
+     */
+    @Override
+    public String jmccPayStatus(String orderCode) {
+        String jmccPayStatusParam = createJmccPayStatus(orderCode);
+        String url="http://www.joinmore.com.cn/modules/store/jmccPayStatus";
+        return sendRequest(url, jmccPayStatusParam);
+    }
+
+    private String createJmccPayStatus(String orderCode){
+        Map<String,String> request = new HashMap<>();
+        request.put("orderCode",orderCode);
+        request.put("ccSessionId","2@@3778101351E28CBAFF777BFD55EE7C5D");
+        return JSON.toJSONString(request);
+    }
+
+
+    /**
+     * @Author 宋正健
+     * @Description //TODO(发送请求)
+     * @Date 2019/7/26 16:42
+     * @Param [url, param]
+     * @Return java.lang.String
+     */
     private String sendRequest(String url,String param){
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(url);

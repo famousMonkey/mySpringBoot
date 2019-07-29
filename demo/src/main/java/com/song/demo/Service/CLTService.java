@@ -6,4 +6,6 @@ public interface CLTService {
 
     String prepay(String totalAmount);
 
+    String jmccPayStatus(String orderCode);
+
 }
