@@ -54,6 +54,9 @@ dependencies {
     implementation('net.sf.json-lib:json-lib:2.4:jdk15')
     //poi
     implementation('org.apache.poi:poi-ooxml:3.9')
+    //java faker
+    implementation('com.github.javafaker:javafaker:0.18')
+    
 
     
 

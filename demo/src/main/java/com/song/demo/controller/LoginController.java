@@ -1,6 +1,7 @@
 package com.song.demo.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.github.javafaker.Faker;
 import com.song.demo.constant.MyResource;
 import com.song.demo.constant.MyResource2;
 import com.song.demo.constant.MyResource3;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -233,6 +235,22 @@ public class LoginController {
         request.setAttribute("bb",value);
         log.info("bb的值="+request.getAttribute("bb").toString());
         return "login";
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/testFaker")
+    public String testFaker(){
+        Faker faker=new Faker(Locale.CHINA);
+        System.out.println("名次\t姓名\t成绩");
+        for (int i = 0; i < 10; i++) {
+            String name = faker.name().fullName();
+            Integer result = faker.random().nextInt(1, 100);
+            if(name.length()==2){
+                name=name+" ";
+            }
+            System.out.println(" "+(i+1)+"\t   "+name+"\t "+result);
+        }
+        return faker.university().name();
     }
 
 }
