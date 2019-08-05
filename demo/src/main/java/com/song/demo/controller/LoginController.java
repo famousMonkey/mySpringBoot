@@ -6,6 +6,8 @@ import com.song.demo.constant.MyResource;
 import com.song.demo.constant.MyResource2;
 import com.song.demo.constant.MyResource3;
 import com.song.demo.constant.Result;
+import com.song.demo.entity.Teacher;
+import com.song.demo.util.CopyUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -251,6 +253,19 @@ public class LoginController {
             System.out.println(" "+(i+1)+"\t   "+name+"\t "+result);
         }
         return faker.university().name();
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/testCopy")
+    public String testCopy(){
+        Teacher teacher=new Teacher();
+        teacher.setId("001");
+        teacher.setName("孙悟空");
+        Teacher teacher1=new Teacher();
+        CopyUtil.copyNonNullProperties(teacher,teacher1);
+        System.out.println("11111--"+teacher1.toString());
+        System.out.println("22222--"+JSON.toJSONString(teacher1));
+        return JSON.toJSONString(teacher1);
     }
 
 }
