@@ -1,5 +1,6 @@
 package com.song.demo.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 /**
@@ -14,6 +15,7 @@ public class Teacher {
 
     private String id;
     private String name;
+    @JSONField(name = "AGE")//注意观察生成的JSON串中age和其他字段的区别
     private Integer age;
     private String address;
 

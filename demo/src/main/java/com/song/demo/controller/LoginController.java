@@ -1,6 +1,7 @@
 package com.song.demo.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.github.javafaker.Faker;
 import com.song.demo.constant.MyResource;
 import com.song.demo.constant.MyResource2;
@@ -214,10 +215,32 @@ public class LoginController {
 
     @GetMapping(value = "/init/{type}")
     @ResponseBody
-    public String initType(@PathVariable("type")Integer type){
+    public Result initType(@PathVariable("type")Integer type){
         myType=type;
-        System.out.println("type="+myType);
-        return myType.toString();
+        String str;
+        switch (type){
+            case 1:
+               str="整型";
+               break;
+            case 2:
+                str="字符型";
+                break;
+            case 3:
+                str="对象";
+                break;
+            default:
+                str="未知";
+        }
+        System.out.println("type="+str);
+        Result result=new Result();
+        if("未知".equals(str)){
+            result.setSuccess(false);
+            result.setMessage("获取类型失败");
+        }else{
+            result.setSuccess(true);
+            result.setMessage(str);
+        }
+        return result;
     }
 
     @GetMapping(value = "/out")
@@ -261,10 +284,11 @@ public class LoginController {
         Teacher teacher=new Teacher();
         teacher.setId("001");
         teacher.setName("孙悟空");
+        teacher.setAddress("");
         Teacher teacher1=new Teacher();
         CopyUtil.copyNonNullProperties(teacher,teacher1);
         System.out.println("11111--"+teacher1.toString());
-        System.out.println("22222--"+JSON.toJSONString(teacher1));
+        System.out.println("22222--"+JSON.toJSONString(teacher1, SerializerFeature.WriteMapNullValue));
         return JSON.toJSONString(teacher1);
     }
 
