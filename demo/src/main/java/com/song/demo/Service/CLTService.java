@@ -4,8 +4,8 @@ public interface CLTService {
 
     String realLogin(String phone,String pwd);
 
-    String prepay(String totalAmount);
+    String prepay(String totalAmount) throws Exception;
 
-    String jmccPayStatus(String orderCode);
+    String jmccPayStatus(String outTradeNo );
 
 }

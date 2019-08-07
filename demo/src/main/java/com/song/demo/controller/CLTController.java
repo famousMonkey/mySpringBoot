@@ -32,21 +32,21 @@ public class CLTController {
     @GetMapping("/realLogin/{phone}/{pwd}")
     @ApiOperation(value = "登陆",notes = "登陆")
     public String realLogin(@PathVariable("phone")String phone,@PathVariable("pwd")String pwd){
-        return cltService.realLogin(phone,pwd);
+        return cltService.realLogin(phone, pwd);
     }
 
     @ResponseBody
     @GetMapping("/prepay/{totalAmount}")
     @ApiOperation(value = "商家预下单",notes = "预下单")
-    public String prepay(@PathVariable("totalAmount")String totalAmount){
+    public String prepay(@PathVariable("totalAmount")String totalAmount) throws Exception {
         return cltService.prepay(totalAmount);
     }
 
     @ResponseBody
-    @GetMapping("/payStatus/{orderCode}")
+    @GetMapping("/payStatus/{outTradeNo}")
     @ApiOperation(value = "获取订单支付状态",notes = "订单状态")
-    public String payStatus(@PathVariable("orderCode")String orderCode){
-        return cltService.jmccPayStatus(orderCode);
+    public String payStatus(@PathVariable("outTradeNo")String outTradeNo ){
+        return cltService.jmccPayStatus(outTradeNo);
     }
 
 }
