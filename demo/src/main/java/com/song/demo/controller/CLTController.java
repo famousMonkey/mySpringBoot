@@ -36,17 +36,25 @@ public class CLTController {
     }
 
     @ResponseBody
-    @GetMapping("/prepay/{totalAmount}")
+    @GetMapping("/alive/{phone}")
+    @ApiOperation(value = "心跳",notes = "心跳")
+    public String alive(@PathVariable("phone") String phone){
+        return cltService.alive(phone);
+    }
+
+
+    @ResponseBody
+    @GetMapping("/prepay/{totalAmount}/{phone}")
     @ApiOperation(value = "商家预下单",notes = "预下单")
-    public String prepay(@PathVariable("totalAmount")String totalAmount) throws Exception {
-        return cltService.prepay(totalAmount);
+    public String prepay(@PathVariable("totalAmount")String totalAmount,@PathVariable("phone") String phone) throws Exception {
+        return cltService.prepay(totalAmount,phone);
     }
 
     @ResponseBody
-    @GetMapping("/payStatus/{outTradeNo}")
+    @GetMapping("/payStatus/{outTradeNo}/{phone}")
     @ApiOperation(value = "获取订单支付状态",notes = "订单状态")
-    public String payStatus(@PathVariable("outTradeNo")String outTradeNo ){
-        return cltService.jmccPayStatus(outTradeNo);
+    public String payStatus(@PathVariable("outTradeNo")String outTradeNo, @PathVariable("phone")String phone){
+        return cltService.jmccPayStatus(outTradeNo,phone);
     }
 
 }
