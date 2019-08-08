@@ -84,15 +84,15 @@ public class CLTServiceImpl implements CLTService {
     private void saveCcSessionId(String myData){
         JSONObject jsonObject = JSON.parseObject(myData);
         Map<String,Object> data = (Map)jsonObject.get("data");
-        log.info("登陆获取的数据：{}",data);
+        log.info("登陆获取的数据：\n{}",data);
         String ccsessionId = (String)data.get("ccsessionId");
-        log.info("ccsessionId数据：{}",ccsessionId);
+        log.info("ccsessionId数据：\n{}",ccsessionId);
         //获取用户信息
         Map<String,String> userResult = (Map)data.get("userResult");
         String phone = userResult.get("phone");
-        log.info("phone数据：{}",phone);
+        log.info("phone数据：\n{}",phone);
         if(ccsessionId!=null&&phone!=null){
-            log.info("-----------存入redis----------");
+            log.info("\n-----------存入redis----------");
             stringRedisTemplate.opsForValue().set("clt.phoneNumber:"+phone,ccsessionId,30L, TimeUnit.MINUTES);
         }
     }
@@ -106,7 +106,7 @@ public class CLTServiceImpl implements CLTService {
      */
     private String getCcSessionId(String phone){
         if(stringRedisTemplate.hasKey("clt.phoneNumber:"+phone)){
-            log.info("-----------获取redis----------");
+            log.info("\n-----------获取redis----------");
             stringRedisTemplate.expire("clt.phoneNumber:"+phone,30L,TimeUnit.MINUTES);
             return stringRedisTemplate.opsForValue().get("clt.phoneNumber:" + phone);
         }else{
@@ -187,7 +187,7 @@ public class CLTServiceImpl implements CLTService {
     private String handlePrepayResult(String myData,String ccSessionId){
         JSONObject jsonObject = JSON.parseObject(myData);
         Map<String,Object> data = (Map)jsonObject.get("data");
-        log.info("data:{}",data);
+        log.info("data:\n{}",data);
         String payUrl = (String)data.get("payUrl");
         String url = payUrl + "&ccSessionId=" + ccSessionId;
         log.info("payUrl:\n{}",url);
@@ -292,7 +292,6 @@ public class CLTServiceImpl implements CLTService {
     private String heartBeatRequest(String url){
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(url);
-        //httpPost.setHeader("Content-Type","application/json");
         CloseableHttpResponse response = null;
         log.info("请求地址：\n{}",url);
         try {
