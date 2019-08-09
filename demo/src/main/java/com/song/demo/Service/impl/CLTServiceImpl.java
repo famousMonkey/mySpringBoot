@@ -162,15 +162,14 @@ public class CLTServiceImpl implements CLTService {
         String body = faker.university().name();
         request.put("body",body);
         request.put("totalAmount",totalAmount);
-        String productCode = faker.color().hex();
-        request.put("productCode",productCode);
+        request.put("productCode","");
         request.put("ccSessionId",ccSessionId);
         request.put("autoOut","0");
         request.put("tradeType","2");
         request.put("returnUrl","");
         request.put("notifyUrl","http://adsgodlove.vicp.cc:44674/payservice/cltNotify");
         request.put("companyCode","91321091MA1NP6RR5W");
-        String outTradeNo = faker.phoneNumber().phoneNumber().replace("-","");
+        String outTradeNo = faker.code().asin();
         request.put("outTradeNo","CLT"+outTradeNo);
         request.put("signature","");//将signature设置为空字符串，然后将整个json字符串的md5值用私钥加密
         String s = haveSignature(request);
