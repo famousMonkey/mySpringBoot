@@ -1,13 +1,15 @@
 package com.song.demo.Service;
 
+import java.util.Map;
+
 public interface CLTService {
 
-    String realLogin(String phone,String pwd);
+    Map realLogin(String phone,String pwd);
 
-    String alive(String phone);
+    Map alive(String phone);
 
-    String prepay(String totalAmount,String phone) throws Exception;
+    Map prepay(String totalAmount,String phone,String qrCode) throws Exception;
 
-    String jmccPayStatus(String outTradeNo,String phone);
+    Map jmccPayStatus(String outTradeNo, String phone);
 
 }

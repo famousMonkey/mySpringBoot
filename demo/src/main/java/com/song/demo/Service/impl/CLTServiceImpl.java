@@ -1,7 +1,6 @@
 package com.song.demo.Service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.github.javafaker.Faker;
 import com.song.demo.Service.CLTService;
 import com.song.demo.config.CLTConfig;
@@ -46,7 +45,7 @@ public class CLTServiceImpl implements CLTService {
     private StringRedisTemplate stringRedisTemplate;
 
     private final String myUrl="http://frgclt.xianjintong.com:30001";
-    private final String returnMsg="会话过期，请重新登陆！";
+    private static final String returnMsg="会话过期，请重新登陆！";
 
 
     /**
@@ -54,15 +53,17 @@ public class CLTServiceImpl implements CLTService {
      * @Description //TODO(登陆)
      * @Date 2019/7/26 14:04
      * @Param [phone, pwd]
-     * @Return java.lang.String
+     * @Return java.util.Map
      */
     @Override
-    public String realLogin(String phone, String pwd) {
+    public Map realLogin(String phone, String pwd) {
         String loginParam = createLoginParam(phone, pwd);
         String url=myUrl+"/api/account/realLogin";
-        String s = sendRequest(url, loginParam);
-        saveCcSessionId(s);//缓存
-        return s;
+        Map map = sendRequest(url, loginParam);
+        if("0".equalsIgnoreCase((String) map.get("code"))){
+            saveCcSessionId(map);//缓存
+        }
+        return map;
     }
 
     private String createLoginParam(String phone, String pwd){
@@ -81,9 +82,8 @@ public class CLTServiceImpl implements CLTService {
      * @Param [myData]
      * @Return void
      */
-    private void saveCcSessionId(String myData){
-        JSONObject jsonObject = JSON.parseObject(myData);
-        Map<String,Object> data = (Map)jsonObject.get("data");
+    private void saveCcSessionId(Map myData){
+        Map<String,Object> data = (Map)myData.get("data");
         log.info("登陆获取的数据：\n{}",data);
         String ccsessionId = (String)data.get("ccsessionId");
         log.info("ccsessionId数据：\n{}",ccsessionId);
@@ -119,16 +119,16 @@ public class CLTServiceImpl implements CLTService {
      * @Description //TODO(心跳)
      * @Date 2019/8/8 10:56
      * @Param [ccSessionId]
-     * @Return java.lang.String
+     * @Return java.util.Map
      */
     @Override
-    public String alive(String phone) {
+    public Map alive(String phone) {
         String ccSessionId = getCcSessionId(phone);
         if(ccSessionId!=null){
             String url=myUrl+"/api/common/alive?CCSessionId="+ccSessionId;
             return heartBeatRequest(url);
         }else{
-           return returnMsg;
+            return errorResult();
         }
     }
 
@@ -137,22 +137,30 @@ public class CLTServiceImpl implements CLTService {
      * @Description //TODO(商家预下单)
      * @Date 2019/7/26 14:26
      * @Param [totalAmount]
-     * @Return java.lang.String
+     * @Return java.util.Map
      */
     @Override
-    public String prepay(String totalAmount,String phone) {
+    public Map prepay(String totalAmount,String phone,String qrCode) {
         String ccSessionId = getCcSessionId(phone);
+        String outTradeNo="CLT"+new Faker(Locale.CHINA).code().asin();
         if(ccSessionId!=null){
-            String prepayParam = createPrepayParam(totalAmount,ccSessionId);
+            String prepayParam = createPrepayParam(outTradeNo,totalAmount,ccSessionId,qrCode);
             String url=myUrl+"/modules/store/prepay";
-            String response = sendRequest(url, prepayParam);
-            return handlePrepayResult(response, ccSessionId);
+            Map map = sendRequest(url, prepayParam);
+            return handlePrepayResult(outTradeNo,phone,map,ccSessionId);
         }else{
-            return returnMsg;
+            return errorResult();
         }
     }
 
-    private String createPrepayParam(String totalAmount,String ccSessionId){
+    /**
+     * @Author 宋正健
+     * @Description //TODO(预下单参数)
+     * @Date 2019/8/14 14:40
+     * @Param [outTradeNo, totalAmount, ccSessionId, qrCode]
+     * @Return java.util.Map
+     */
+    private String createPrepayParam(String outTradeNo,String totalAmount,String ccSessionId,String qrCode){
         Faker faker=new Faker(Locale.CHINA);
         Map<String,String> request=new HashMap<>();
         request.put("appID","2019080609");
@@ -165,33 +173,71 @@ public class CLTServiceImpl implements CLTService {
         request.put("productCode","");
         request.put("ccSessionId",ccSessionId);
         request.put("autoOut","0");
-        request.put("tradeType","2");
+        request.put("tradeType","4");
+        request.put("qrCode",qrCode);
         request.put("returnUrl","");
         request.put("notifyUrl","http://adsgodlove.vicp.cc:44674/payservice/cltNotify");
         request.put("companyCode","91321091MA1NP6RR5W");
-        String outTradeNo = faker.code().asin();
-        request.put("outTradeNo","CLT"+outTradeNo);
+        request.put("outTradeNo",outTradeNo);
         request.put("signature","");//将signature设置为空字符串，然后将整个json字符串的md5值用私钥加密
         String s = haveSignature(request);
         return s;
     }
 
+
     /**
      * @Author 宋正健
-     * @Description //TODO(处理预下单返回的payUrl地址)
+     * @Description //TODO(订单的支付结果)
+     * @Date 2019/8/14 14:41
+     * @Param [outTradeNo, phone, myData, ccSessionId]
+     * @Return java.util.Map
+     */
+    private Map handlePrepayResult(String outTradeNo,String phone,Map myData,String ccSessionId){
+        Map<String,String> map = handlePrepayResultData(myData, ccSessionId);
+        if("0".equalsIgnoreCase(map.get("code"))){
+            while(true){
+                Map data = jmccPayStatus(outTradeNo, phone);
+                if("0".equalsIgnoreCase((String)data.get("code"))){
+                    String str = (String)data.get("data");
+                    Map<String,String> mapStr = JSON.parseObject(str,Map.class);
+                    log.info("下单后的支付结果：{}",mapStr);
+                    if("SUCCESS".equalsIgnoreCase(mapStr.get("code"))||"ERROR".equalsIgnoreCase(mapStr.get("code"))){
+                        return mapStr;
+                    }else{
+                        continue;
+                    }
+                }else{
+                    return data;
+                }
+            }
+        }else{
+            return map;
+        }
+    }
+
+    /**
+     * @Author 宋正健
+     * @Description //TODO(处理预下单返回结果)
      * @Date 2019/8/8 15:23
      * @Param [myData, ccSessionId]
-     * @Return java.lang.String
+     * @Return java.util.Map
      */
-    private String handlePrepayResult(String myData,String ccSessionId){
-        JSONObject jsonObject = JSON.parseObject(myData);
-        Map<String,Object> data = (Map)jsonObject.get("data");
-        log.info("data:\n{}",data);
-        String payUrl = (String)data.get("payUrl");
-        String url = payUrl + "&ccSessionId=" + ccSessionId;
-        log.info("payUrl:\n{}",url);
-        return url;
+    private Map handlePrepayResultData(Map myData,String ccSessionId){
+        Map<String,Object> data = (Map)myData.get("data");
+        if(data!=null){
+            log.info("预下单。。。");
+            log.info("data:\n{}",data);
+            String payUrl = (String)data.get("payUrl");
+            String url = payUrl + "&ccSessionId=" + ccSessionId;
+            log.info("payUrl:\n{}",url);
+            data.put("payUrl",url);
+            return data;
+        }else{
+            log.info("下单。。。");
+            return myData;
+        }
     }
+
 
 
     /**
@@ -221,17 +267,17 @@ public class CLTServiceImpl implements CLTService {
      * @Description //TODO(获取订单支付状态)
      * @Date 2019/7/26 16:46
      * @Param [orderCode]
-     * @Return java.lang.String
+     * @Return java.util.Map
      */
     @Override
-    public String jmccPayStatus(String outTradeNo,String phone) {
+    public Map jmccPayStatus(String outTradeNo,String phone) {
         String ccSessionId = getCcSessionId(phone);
         if(ccSessionId!=null){
             String jmccPayStatusParam = createJmccPayStatus(outTradeNo,ccSessionId);
             String url=myUrl+"/modules/store/jmccPayStatus";
             return sendRequest(url, jmccPayStatusParam);
         }else{
-            return returnMsg;
+            return errorResult();
         }
     }
 
@@ -249,9 +295,10 @@ public class CLTServiceImpl implements CLTService {
      * @Description //TODO(发送请求)
      * @Date 2019/7/26 16:42
      * @Param [url, param]
-     * @Return java.lang.String
+     * @Return java.util.Map
      */
-    private String sendRequest(String url,String param){
+    private Map sendRequest(String url,String param){
+        long startTime = System.currentTimeMillis();
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(url);
         StringEntity body = new StringEntity(param, "utf-8");
@@ -260,12 +307,15 @@ public class CLTServiceImpl implements CLTService {
         CloseableHttpResponse response = null;
         log.info("请求地址：\n{}",url);
         log.info("请求参数：\n{}",param);
+        Map map=null;
         try {
             response = httpClient.execute(httpPost);
             HttpEntity entity = response.getEntity();
             String context = EntityUtils.toString(entity, "UTF-8");
-            log.info("返回数据：\n{}",context);
-            return context;
+            long endTime = System.currentTimeMillis();
+            map = JSON.parseObject(context, Map.class);
+            log.info("返回数据：\n{}.\n用时 = {}",map,(endTime-startTime));
+            return map;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -277,7 +327,7 @@ public class CLTServiceImpl implements CLTService {
                 e.printStackTrace();
             }
         }
-        return null;
+        return map;
     }
 
 
@@ -286,19 +336,22 @@ public class CLTServiceImpl implements CLTService {
      * @Description //TODO(心跳请求)
      * @Date 2019/8/8 14:20
      * @Param [url]
-     * @Return java.lang.String
+     * @Return java.util.Map
      */
-    private String heartBeatRequest(String url){
+    private Map heartBeatRequest(String url){
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(url);
         CloseableHttpResponse response = null;
         log.info("请求地址：\n{}",url);
+        Map map=null;
         try {
             response = httpClient.execute(httpPost);
             HttpEntity entity = response.getEntity();
             String context = EntityUtils.toString(entity, "UTF-8");
             log.info("返回数据：\n{}",context);
-            return context;
+            map = JSON.parseObject(context, Map.class);
+            log.info("返回数据：\n{}.",map);
+            return map;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -310,7 +363,21 @@ public class CLTServiceImpl implements CLTService {
                 e.printStackTrace();
             }
         }
-        return null;
+        return map;
+    }
+
+    /**
+     * @Author 宋正健
+     * @Description //TODO(会话过期结果)
+     * @Date 2019/8/14 15:03
+     * @Param []
+     * @Return java.util.Map
+     */
+    private static Map errorResult(){
+        Map map=new HashMap();
+        map.put("code","10022");
+        map.put("msg",returnMsg);
+        return map;
     }
 
 }

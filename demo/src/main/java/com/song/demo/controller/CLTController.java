@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Map;
+
 /**
  * @ClassName: CLTController
  * @Description: //TODO()
@@ -31,29 +33,29 @@ public class CLTController {
     @ResponseBody
     @GetMapping("/realLogin/{phone}/{pwd}")
     @ApiOperation(value = "登陆",notes = "登陆")
-    public String realLogin(@PathVariable("phone")String phone,@PathVariable("pwd")String pwd){
+    public Map realLogin(@PathVariable("phone")String phone,@PathVariable("pwd")String pwd){
         return cltService.realLogin(phone, pwd);
     }
 
     @ResponseBody
     @GetMapping("/alive/{phone}")
     @ApiOperation(value = "心跳",notes = "心跳")
-    public String alive(@PathVariable("phone") String phone){
+    public Map alive(@PathVariable("phone") String phone){
         return cltService.alive(phone);
     }
 
 
     @ResponseBody
-    @GetMapping("/prepay/{totalAmount}/{phone}")
+    @GetMapping("/prepay/{totalAmount}/{phone}/{qrCode}")
     @ApiOperation(value = "商家预下单",notes = "预下单")
-    public String prepay(@PathVariable("totalAmount")String totalAmount,@PathVariable("phone") String phone) throws Exception {
-        return cltService.prepay(totalAmount,phone);
+    public Map prepay(@PathVariable("totalAmount")String totalAmount,@PathVariable("phone") String phone,@PathVariable("qrCode")String qrCode) throws Exception {
+        return cltService.prepay(totalAmount,phone,qrCode);
     }
 
     @ResponseBody
     @GetMapping("/payStatus/{outTradeNo}/{phone}")
     @ApiOperation(value = "获取订单支付状态",notes = "订单状态")
-    public String payStatus(@PathVariable("outTradeNo")String outTradeNo, @PathVariable("phone")String phone){
+    public Map payStatus(@PathVariable("outTradeNo")String outTradeNo, @PathVariable("phone")String phone){
         return cltService.jmccPayStatus(outTradeNo,phone);
     }
 
