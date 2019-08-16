@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -41,6 +42,10 @@ public class TLController {
         return tlService.pay(total,openId);
     }
 
-
+    @ApiOperation(value = "统一扫码接口",notes = "扫一扫付款二维码,获取付款二维码内容调用此接口进行收款")
+    @GetMapping(value = "/scanqrpay/{trxamt}/{reqsn}/{authcode}")
+    public Map<String,String> scanqrpay(@PathVariable("trxamt") BigDecimal trxamt, @PathVariable("reqsn")String reqsn, @PathVariable("authcode")String authcode) throws Exception {
+        return tlService.scanqrpay(trxamt,reqsn,authcode);
+    }
 
 }

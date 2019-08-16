@@ -58,10 +58,10 @@ public class CLTServiceImpl implements CLTService {
     @Override
     public Map realLogin(String phone, String pwd) {
         String loginParam = createLoginParam(phone, pwd);
-        String url=myUrl+"/api/account/realLogin";
+        String url=myUrl+"/api/account/thirdLogin";
         Map map = sendRequest(url, loginParam);
         if("0".equalsIgnoreCase((String) map.get("code"))){
-            saveCcSessionId(map);//缓存
+            saveCcSessionId(map,phone);//缓存
         }
         return map;
     }
@@ -70,7 +70,7 @@ public class CLTServiceImpl implements CLTService {
         Map<String,String> request=new HashMap<>();
         request.put("phone",phone);
         request.put("password",pwd);
-        request.put("type","0");
+        request.put("channelNo","CLTXHT");
         String param = JSON.toJSONString(request);
         return param;
     }
@@ -82,15 +82,10 @@ public class CLTServiceImpl implements CLTService {
      * @Param [myData]
      * @Return void
      */
-    private void saveCcSessionId(Map myData){
+    private void saveCcSessionId(Map myData,String phone){
         Map<String,Object> data = (Map)myData.get("data");
         log.info("登陆获取的数据：\n{}",data);
         String ccsessionId = (String)data.get("ccsessionId");
-        log.info("ccsessionId数据：\n{}",ccsessionId);
-        //获取用户信息
-        Map<String,String> userResult = (Map)data.get("userResult");
-        String phone = userResult.get("phone");
-        log.info("phone数据：\n{}",phone);
         if(ccsessionId!=null&&phone!=null){
             log.info("\n-----------存入redis----------");
             stringRedisTemplate.opsForValue().set("clt.phoneNumber:"+phone,ccsessionId,30L, TimeUnit.MINUTES);
@@ -164,7 +159,7 @@ public class CLTServiceImpl implements CLTService {
         Faker faker=new Faker(Locale.CHINA);
         Map<String,String> request=new HashMap<>();
         request.put("appID","2019080609");
-        request.put("channelNo","XHTJYZ");
+        request.put("channelNo","CLTXHT");
         request.put("industryCode","5541");
         request.put("subject","123456");
         String body = faker.university().name();
@@ -251,7 +246,7 @@ public class CLTServiceImpl implements CLTService {
         String param = JSON.toJSONString(request);
         String md5Value = null;
         try {
-            md5Value = MD5Util.md5(URLEncoder.encode(param, "UTF-8"));
+            md5Value = MD5Util.md5(URLEncoder.encode(param, "UTF-8").getBytes());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -283,7 +278,7 @@ public class CLTServiceImpl implements CLTService {
 
     private String createJmccPayStatus(String outTradeNo,String ccSessionId){
         Map<String,String> request = new HashMap<>();
-        request.put("channelNo","XHTJYZ");
+        request.put("channelNo","CLTXHT");
         request.put("outTradeNo",outTradeNo );
         request.put("ccSessionId",ccSessionId);
         return JSON.toJSONString(request);
