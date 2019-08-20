@@ -2,6 +2,7 @@ package com.song.demo.Service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.song.demo.Service.TLService;
+import com.song.demo.util.HttpClientUtil;
 import com.song.demo.util.HttpConnectionUtil;
 import com.song.demo.util.MD5Util;
 import com.song.demo.util.SybUtil;
@@ -51,12 +52,16 @@ public class TLServiceImpl implements TLService {
 
     @Override
     public Map<String, String> scanqrpay(BigDecimal trxamt, String reqsn, String authcode) throws Exception{
-       String url="https://vsp.allinpay.com/apiweb/unitorder/scanqrpay";
-       Map<String, String> scanqrpayParam = createScanqrpayParam(trxamt, reqsn, authcode);
-       return sendRequest(url,scanqrpayParam);
+        String url="https://vsp.allinpay.com/apiweb/unitorder/scanqrpay";
+        Map scanqrpayParam = createScanqrpayParam(trxamt, reqsn, authcode);
+        String s = HttpClientUtil.doPost(url, scanqrpayParam);
+        Map map = JSON.parseObject(s, Map.class);
+        log.info("返回结果：{}",map);
+        //return sendRequest(url,scanqrpayParam);
+        return map;
     }
 
-    private Map<String,String> createScanqrpayParam(BigDecimal trxamt, String reqsn, String authcode) throws Exception{
+    private Map createScanqrpayParam(BigDecimal trxamt, String reqsn, String authcode) throws Exception{
         TreeMap<String,String> map=new TreeMap<>();
         map.put("cusid","560455055410NZ8");
         map.put("appid","00170396");

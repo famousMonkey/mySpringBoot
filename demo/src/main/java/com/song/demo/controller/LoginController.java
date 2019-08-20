@@ -3,10 +3,13 @@ package com.song.demo.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.github.javafaker.Faker;
+import com.song.demo.config.MyConstant;
+import com.song.demo.config.ResultMsg;
 import com.song.demo.constant.MyResource;
 import com.song.demo.constant.MyResource2;
 import com.song.demo.constant.MyResource3;
 import com.song.demo.constant.Result;
+import com.song.demo.entity.Student;
 import com.song.demo.entity.Teacher;
 import com.song.demo.util.CopyUtil;
 import io.swagger.annotations.Api;
@@ -22,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -291,5 +295,43 @@ public class LoginController {
         System.out.println("22222--"+JSON.toJSONString(teacher1, SerializerFeature.WriteMapNullValue));
         return JSON.toJSONString(teacher1);
     }
+
+
+    @ResponseBody
+    @GetMapping(value = "/testEnum/{type}")
+    public ResultMsg testEnum(@PathVariable(value = "type")Integer type){
+        if(type==0){
+            Student student=null;
+            Optional<Student> optional = Optional.of(student);
+            //Optional<Student> optional = Optional.ofNullable(student);
+            Student myStudent=new Student();
+            myStudent.setId("003");
+            myStudent.setName("天蓬元帅");
+            myStudent.setAge(300);
+            Student stuResult = optional.orElse(myStudent);
+            ResultMsg result=new ResultMsg(MyConstant.SUCCESS.getCode(),MyConstant.SUCCESS.getMessage(),stuResult);
+            return result;
+        }else if(type==1){
+            log.info("枚举类：{}",MyConstant.valueOf("MESSAGE_IS_NULL").toString());
+            ResultMsg result=new ResultMsg(MyConstant.MESSAGE_IS_NULL.getCode(),MyConstant.MESSAGE_IS_NULL.getMessage());
+            return result;
+        }else if(type==2){
+            Student student=new Student();
+            student.setId("500");
+            student.setName("齐天大圣");
+            student.setAge(527);
+            ResultMsg result=new ResultMsg(MyConstant.ILLEGAL_REQUEST_PARAMETERS.getCode(),MyConstant.ILLEGAL_REQUEST_PARAMETERS.getMessage(),student);
+            return result;
+        }else{
+            Teacher teacher=new Teacher();
+            teacher.setId("001");
+            teacher.setName("金蝉子");
+            teacher.setAge(27);
+            teacher.setAddress("大唐长安");
+            ResultMsg result=new ResultMsg(MyConstant.NULL_POINTER_EXCEPTION.getCode(),MyConstant.NULL_POINTER_EXCEPTION.getMessage(),teacher);
+            return result;
+        }
+    }
+
 
 }
