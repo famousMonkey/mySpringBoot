@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * @ClassName: StudentServiceImpl
@@ -63,12 +65,17 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student findById(String id) {
         Optional<Student> stu = studentRepository.findById(id);
-        Student student = stu.orElse(new Student("err","当你看到这个结果时，说明没有查到结果",000));
+        Student student = stu.orElse(new Student("err","当你看到这个结果时，说明没有查到结果",000,new Date()));
         return student;
     }
 
     @Override
     public List<Student> findAll() {
         return studentRepository.findAll();
+    }
+
+    @Override
+    public Set<Student> findByAgeAndBirthdayAfter(Integer age, Date now) {
+        return studentRepository.findByAgeAndBirthdayAfter(age,now);
     }
 }

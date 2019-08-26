@@ -71,8 +71,8 @@ public class TLServiceImpl implements TLService {
         map.put("trxamt",money);
         map.put("reqsn",reqsn);
         map.put("authcode",authcode);
-        //map.put("sign",SybUtil.sign(map,"123456"));
-        map.put("sign",myMd5(map,"123456"));
+        map.put("sign",SybUtil.sign(map,"123456"));
+        //map.put("sign",myMd5(map,"123456"));
         return map;
     }
 

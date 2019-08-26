@@ -7,7 +7,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @ClassName: StudentController
@@ -72,5 +74,10 @@ public class StudentController {
     }
 
 
+    @ApiOperation(value = "查询所有",notes = "查全部")
+    @GetMapping(value = "/findByAgeAndBirthdayAfter/{age}")
+    public Set<Student> findByAgeAndBirthdayAfter(@PathVariable("age")Integer age){
+        return studentService.findByAgeAndBirthdayAfter(age,new Date());
+    }
 
 }

@@ -2,7 +2,9 @@ package com.song.demo.Service;
 
 import com.song.demo.entity.Student;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public interface StudentService {
 
@@ -11,5 +13,6 @@ public interface StudentService {
     boolean updateResource(String id,Student student);
     Student findById(String id);
     List<Student> findAll();
+    Set<Student> findByAgeAndBirthdayAfter(Integer age, Date now);
 
 }
