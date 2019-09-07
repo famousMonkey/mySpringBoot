@@ -1,7 +1,10 @@
 package com.song.demo.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.song.demo.config.MyAnnotation;
 import lombok.Data;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * @ClassName: Teacher
@@ -14,9 +17,11 @@ import lombok.Data;
 public class Teacher {
 
     private String id;
+    @MyAnnotation(value = "小q")
     private String name;
     @JSONField(name = "AGE")//注意观察生成的JSON串中age和其他字段的区别
     private Integer age;
+    @NotNull(message = "address is not null ! ")
     private String address;
 
 }

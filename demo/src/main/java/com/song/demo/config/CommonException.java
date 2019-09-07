@@ -1,6 +1,5 @@
 package com.song.demo.config;
 
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
@@ -13,16 +12,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class CommonException {
 
-    @ExceptionHandler(value = Exception.class)
-    public String myException(){
-        return "WOW--异常";
-    }
-
-    @ExceptionHandler(value = NullPointerException.class)
-    public String myNullPointerException(){
-
-        return "WOW--空指针";
-    }
+//    @ExceptionHandler(value = Exception.class)
+//    public String myException(){
+//        return "WOW--异常";
+//    }
+//
+//    @ExceptionHandler(value = NullPointerException.class)
+//    public String myNullPointerException(){
+//
+//        return "WOW--空指针";
+//    }
 
 
 }

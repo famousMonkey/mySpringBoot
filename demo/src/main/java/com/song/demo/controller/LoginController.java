@@ -9,8 +9,7 @@ import com.song.demo.constant.MyResource;
 import com.song.demo.constant.MyResource2;
 import com.song.demo.constant.MyResource3;
 import com.song.demo.constant.Result;
-import com.song.demo.entity.Student;
-import com.song.demo.entity.Teacher;
+import com.song.demo.entity.*;
 import com.song.demo.util.CopyUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,9 +18,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -333,5 +335,31 @@ public class LoginController {
         }
     }
 
+    @ResponseBody
+    @PostMapping(value = "/testPerson")
+    public String testPerson(@Validated @RequestBody Person person, BindingResult result){
+        if(result.hasErrors()){
+            return result.getFieldError().getDefaultMessage();
+        }
+
+        Man man = person.getMan();
+        Woman woman = person.getWoman();
+        log.info("男人：{}",man);
+        log.info("女人：{}",woman);
+        return JSON.toJSONString(person);
+    }
+
+
+    @ResponseBody
+    @PostMapping(value = "/testTeacher")
+    public ResultMsg testTeacher(@RequestBody@Valid Teacher teacher,BindingResult result){
+        if(result.hasErrors()){
+            return new ResultMsg(10022,result.getFieldError().getDefaultMessage());
+        }else{
+            Teacher t1=new Teacher();
+            System.out.println(t1.toString());
+            return new ResultMsg(10000,"success",teacher);
+        }
+    }
 
 }
