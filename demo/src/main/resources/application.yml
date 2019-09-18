@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: master
 
 my:
   name: monkey
@@ -34,3 +34,15 @@ dlb2:
   customerNum: 10001115525569710821582
   shopNum: 10001215525571169599125
   callbackUrl: http://adsgodlove.vicp.cc:44674/payservice/duolabaoNotify
+
+
+account:
+  type:
+    - A004-001-001
+    - A004-001-002
+    - A004-001-003
+    - A004-001-004
+
+recharge:
+  status:
+    [success,fail,paying]

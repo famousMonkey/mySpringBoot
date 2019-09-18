@@ -3,6 +3,8 @@ package com.song.demo.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.github.javafaker.Faker;
+import com.song.demo.config.MyAsync;
+import com.song.demo.config.MyConfig;
 import com.song.demo.config.MyConstant;
 import com.song.demo.config.ResultMsg;
 import com.song.demo.constant.MyResource;
@@ -24,10 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -51,6 +50,13 @@ public class LoginController {
 
     @Autowired
     private MyResource3 myResource3;
+
+    @Autowired
+    private MyConfig myConfig;
+
+    @Autowired
+    private MyAsync myAsync;
+
 
     private Integer myType;
 
@@ -361,5 +367,25 @@ public class LoginController {
             return new ResultMsg(10000,"success",teacher);
         }
     }
+
+    @ResponseBody
+    @GetMapping(value = "/testMyConfig")
+    public ResultMsg testMyConfig(){
+        Set<String> type = myConfig.getType();
+        return new ResultMsg(10000,"success",type);
+    }
+
+
+    @ResponseBody
+    @GetMapping(value = "/testAsync/{ss}")
+    public String testAsync(@PathVariable("ss")String ss) throws InterruptedException {
+        myAsync.doSomething(ss);
+        //TimeUnit.SECONDS.sleep(2);
+        System.out.println("abc");
+        System.out.println("def");
+        System.out.println("ghi");
+        return ss;
+    }
+
 
 }

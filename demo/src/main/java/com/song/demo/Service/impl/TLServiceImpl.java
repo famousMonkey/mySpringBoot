@@ -2,6 +2,7 @@ package com.song.demo.Service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.song.demo.Service.TLService;
+import com.song.demo.config.ResultMsg;
 import com.song.demo.util.HttpClientUtil;
 import com.song.demo.util.HttpConnectionUtil;
 import com.song.demo.util.MD5Util;
@@ -44,10 +45,11 @@ public class TLServiceImpl implements TLService {
     }
 
     @Override
-    public Map<String, String> pay(String total, String openId) throws Exception {
+    public ResultMsg pay(String total, String openId) throws Exception {
         String url="https://vsp.allinpay.com/apiweb/unitorder/pay";
         Map<String, String> payParam = createPayParam(total, openId);
-        return sendRequest(url,payParam);
+        Map<String, String> map = sendRequest(url, payParam);
+        return analyzePayInfo(map);
     }
 
     @Override
@@ -160,7 +162,15 @@ public class TLServiceImpl implements TLService {
         return map;
     }
 
+    private ResultMsg analyzePayInfo(Map<String,String> map){
+        if("0000".equals(map.get("trxstatus"))){
+            String s = map.get("payinfo");
+            return new ResultMsg(10000,"success",s);
+        }else{
+            return new ResultMsg(10022,map.get("errmsg"));
+        }
 
+    }
 
     //加密签名字符串
     private String myMd5(Map map,String key){

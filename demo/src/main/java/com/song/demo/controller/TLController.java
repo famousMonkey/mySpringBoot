@@ -1,6 +1,7 @@
 package com.song.demo.controller;
 
 import com.song.demo.Service.TLService;
+import com.song.demo.config.ResultMsg;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +39,7 @@ public class TLController {
 
     @ApiOperation(value = "统一支付接口",notes = "请求扫码支付的二维码串")
     @GetMapping(value = "/pay/{total}/{openId}")
-    public Map<String,String> pay(@PathVariable("total")String total,@PathVariable("openId")String openId) throws Exception {
+    public ResultMsg pay(@PathVariable("total")String total, @PathVariable("openId")String openId) throws Exception {
         return tlService.pay(total,openId);
     }
 

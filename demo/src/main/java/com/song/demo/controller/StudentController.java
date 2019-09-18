@@ -80,4 +80,11 @@ public class StudentController {
         return studentService.findByAgeAndBirthdayAfter(age,new Date());
     }
 
+    @ApiOperation(value = "查询生日小于当前时间的学生",notes = "按生日查")
+    @GetMapping(value = "/findByDate")
+    public Set<Student> findByDate(){
+        Date myDate=new Date();
+        return studentService.findByDate(myDate);
+    }
+
 }

@@ -3,15 +3,13 @@ package com.song.demo.Service.impl;
 import com.song.demo.Service.StudentService;
 import com.song.demo.entity.Student;
 import com.song.demo.repository.StudentRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @ClassName: StudentServiceImpl
@@ -20,7 +18,7 @@ import java.util.Set;
  * @Date: 2019/7/5 15:25
  * @Version: 1.0
  **/
-
+@Slf4j
 @Service
 public class StudentServiceImpl implements StudentService {
 
@@ -77,5 +75,21 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Set<Student> findByAgeAndBirthdayAfter(Integer age, Date now) {
         return studentRepository.findByAgeAndBirthdayAfter(age,now);
+    }
+
+    @Override
+    public Set<Student> findByDate(Date date) {
+        List<Student> all = studentRepository.findAll();
+        Set<Student> allStudent=new HashSet<>();
+        for (Student student : all) {
+            if(student.getBirthday().before(date)){
+                allStudent.add(student);
+            }else{
+                continue;
+            }
+        }
+        log.info("按生日查：{}",allStudent);
+        return allStudent;
+
     }
 }

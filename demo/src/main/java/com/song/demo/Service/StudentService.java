@@ -14,5 +14,6 @@ public interface StudentService {
     Student findById(String id);
     List<Student> findAll();
     Set<Student> findByAgeAndBirthdayAfter(Integer age, Date now);
+    Set<Student> findByDate(Date date);
 
 }
