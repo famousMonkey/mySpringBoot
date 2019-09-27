@@ -48,6 +48,13 @@ dependencies {
     // 加入spring-jpa依赖
     implementation('org.springframework.boot:spring-boot-starter-data-jpa')
     implementation('commons-beanutils:commons-beanutils:1.8.3')
+
+    //事务
+//    implementation 'com.codingapi.txlcn:txlcn-tc:5.0.2.RELEASE'
+//    implementation('com.codingapi.txlcn:txlcn-txmsg-netty:5.0.2.RELEASE')
+    implementation 'com.codingapi.txlcn:txlcn-tm:5.0.2.RELEASE'
+    //redis appender
+    implementation('com.cwbase:logback-redis-appender:1.1.5')
     //解决Spring Boot Configuration.....not in classpath
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     //

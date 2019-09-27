@@ -1,0 +1,185 @@
+2019-09-02 11:05:52.626 [ main ] - [ INFO  ] [ com.song.demo.DemoApplicationTests : 50 ] - Starting DemoApplicationTests on DESKTOP-HGEGF8D with PID 6300 (started by 13838 in D:\workspace\mySpace\mySpringBoot\demo)
+2019-09-02 11:05:52.627 [ main ] - [ INFO  ] [ com.song.demo.DemoApplicationTests : 679 ] - The following profiles are active: dev
+2019-09-02 11:05:54.336 [ main ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 110 ] - HikariPool-1 - Starting...
+2019-09-02 11:05:54.458 [ main ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 123 ] - HikariPool-1 - Start completed.
+2019-09-02 11:05:56.875 [ main ] - [ INFO  ] [ s.d.s.w.PropertySourcedRequestMappingHandlerMapping : 69 ] - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2019-09-02 11:05:57.856 [ main ] - [ INFO  ] [ s.d.s.web.plugins.DocumentationPluginsBootstrapper : 147 ] - Context refreshed
+2019-09-02 11:05:57.877 [ main ] - [ INFO  ] [ s.d.s.web.plugins.DocumentationPluginsBootstrapper : 150 ] - Found 1 custom documentation plugin(s)
+2019-09-02 11:05:57.900 [ main ] - [ INFO  ] [ s.d.spring.web.scanners.ApiListingReferenceScanner : 41 ] - Scanning for api listing references
+2019-09-02 11:05:58.084 [ main ] - [ INFO  ] [ s.d.s.w.r.operation.CachingOperationNameGenerator : 40 ] - Generating unique operation named: refundUsingGET_1
+2019-09-02 11:05:58.300 [ main ] - [ INFO  ] [ com.song.demo.DemoApplicationTests : 59 ] - Started DemoApplicationTests in 6.127 seconds (JVM running for 7.015)
+2019-09-02 11:05:58.351 [ main ] - [ INFO  ] [ com.song.demo.DemoApplication : 24 ] - info 这是一条测试信息！
+2019-09-02 11:05:58.351 [ main ] - [ WARN  ] [ com.song.demo.DemoApplication : 25 ] - warn 这是一条测试信息！
+2019-09-02 11:05:58.351 [ main ] - [ ERROR ] [ com.song.demo.DemoApplication : 26 ] - error 这是一条测试信息！
+2019-09-02 11:05:59.318 [ Thread-2 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 350 ] - HikariPool-1 - Shutdown initiated...
+2019-09-02 11:05:59.321 [ Thread-2 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 352 ] - HikariPool-1 - Shutdown completed.
+2019-09-02 11:08:26.810 [ main ] - [ INFO  ] [ com.song.demo.DemoApplicationTests : 50 ] - Starting DemoApplicationTests on DESKTOP-HGEGF8D with PID 18192 (started by 13838 in D:\workspace\mySpace\mySpringBoot\demo)
+2019-09-02 11:08:26.811 [ main ] - [ INFO  ] [ com.song.demo.DemoApplicationTests : 679 ] - The following profiles are active: dev
+2019-09-02 11:08:27.674 [ main ] - [ INFO  ] [ o.s.d.r.config.RepositoryConfigurationDelegate : 244 ] - Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-09-02 11:08:27.676 [ main ] - [ INFO  ] [ o.s.d.r.config.RepositoryConfigurationDelegate : 126 ] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2019-09-02 11:08:27.813 [ main ] - [ INFO  ] [ o.s.d.r.config.RepositoryConfigurationDelegate : 182 ] - Finished Spring Data repository scanning in 131ms. Found 1 repository interfaces.
+2019-09-02 11:08:27.824 [ main ] - [ INFO  ] [ o.s.d.r.config.RepositoryConfigurationDelegate : 244 ] - Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-09-02 11:08:27.825 [ main ] - [ INFO  ] [ o.s.d.r.config.RepositoryConfigurationDelegate : 126 ] - Bootstrapping Spring Data repositories in DEFAULT mode.
+2019-09-02 11:08:27.840 [ main ] - [ INFO  ] [ o.s.d.r.c.RepositoryConfigurationExtensionSupport : 363 ] - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.song.demo.repository.StudentRepository.
+2019-09-02 11:08:27.840 [ main ] - [ INFO  ] [ o.s.d.r.config.RepositoryConfigurationDelegate : 182 ] - Finished Spring Data repository scanning in 8ms. Found 0 repository interfaces.
+2019-09-02 11:08:28.296 [ main ] - [ INFO  ] [ o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker : 330 ] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$33248b17] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-09-02 11:08:28.484 [ main ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 110 ] - HikariPool-1 - Starting...
+2019-09-02 11:08:28.606 [ main ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 123 ] - HikariPool-1 - Start completed.
+2019-09-02 11:08:28.666 [ main ] - [ INFO  ] [ org.hibernate.jpa.internal.util.LogHelper : 31 ] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2019-09-02 11:08:28.730 [ main ] - [ INFO  ] [ org.hibernate.Version : 46 ] - HHH000412: Hibernate Core {5.3.10.Final}
+2019-09-02 11:08:28.731 [ main ] - [ INFO  ] [ org.hibernate.cfg.Environment : 213 ] - HHH000206: hibernate.properties not found
+2019-09-02 11:08:28.896 [ main ] - [ INFO  ] [ org.hibernate.annotations.common.Version : 49 ] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2019-09-02 11:08:29.183 [ main ] - [ INFO  ] [ org.hibernate.dialect.Dialect : 157 ] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2019-09-02 11:08:29.781 [ main ] - [ INFO  ] [ o.s.orm.jpa.LocalContainerEntityManagerFactoryBean : 415 ] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2019-09-02 11:08:30.835 [ main ] - [ WARN  ] [ o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration : 237 ] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2019-09-02 11:08:31.041 [ main ] - [ INFO  ] [ s.d.s.w.PropertySourcedRequestMappingHandlerMapping : 69 ] - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2019-09-02 11:08:31.461 [ main ] - [ INFO  ] [ o.s.scheduling.concurrent.ThreadPoolTaskExecutor : 171 ] - Initializing ExecutorService 'applicationTaskExecutor'
+2019-09-02 11:08:31.642 [ main ] - [ INFO  ] [ o.s.b.a.web.servlet.WelcomePageHandlerMapping : 61 ] - Adding welcome page template: index
+2019-09-02 11:08:32.045 [ main ] - [ INFO  ] [ s.d.s.web.plugins.DocumentationPluginsBootstrapper : 147 ] - Context refreshed
+2019-09-02 11:08:32.065 [ main ] - [ INFO  ] [ s.d.s.web.plugins.DocumentationPluginsBootstrapper : 150 ] - Found 1 custom documentation plugin(s)
+2019-09-02 11:08:32.087 [ main ] - [ INFO  ] [ s.d.spring.web.scanners.ApiListingReferenceScanner : 41 ] - Scanning for api listing references
+2019-09-02 11:08:32.267 [ main ] - [ INFO  ] [ s.d.s.w.r.operation.CachingOperationNameGenerator : 40 ] - Generating unique operation named: refundUsingGET_1
+2019-09-02 11:08:32.401 [ main ] - [ INFO  ] [ o.s.a.rabbit.connection.CachingConnectionFactory : 460 ] - Attempting to connect to: [localhost:5672]
+2019-09-02 11:08:32.450 [ main ] - [ INFO  ] [ o.s.a.rabbit.connection.CachingConnectionFactory : 496 ] - Created new connection: rabbitConnectionFactory#16ef1160:0/SimpleConnection@56820446 [delegate=amqp://guest@127.0.0.1:5672/, localPort= 61470]
+2019-09-02 11:08:32.572 [ main ] - [ INFO  ] [ com.song.demo.DemoApplicationTests : 59 ] - Started DemoApplicationTests in 6.268 seconds (JVM running for 7.143)
+2019-09-02 11:08:32.623 [ main ] - [ INFO  ] [ com.song.demo.DemoApplication : 24 ] - info 这是一条测试信息！
+2019-09-02 11:08:32.624 [ main ] - [ WARN  ] [ com.song.demo.DemoApplication : 25 ] - warn 这是一条测试信息！
+2019-09-02 11:08:32.624 [ main ] - [ ERROR ] [ com.song.demo.DemoApplication : 26 ] - error 这是一条测试信息！
+2019-09-02 11:08:32.633 [ Thread-2 ] - [ INFO  ] [ o.s.a.r.listener.SimpleMessageListenerContainer : 586 ] - Waiting for workers to finish.
+2019-09-02 11:08:33.567 [ Thread-2 ] - [ INFO  ] [ o.s.a.r.listener.SimpleMessageListenerContainer : 589 ] - Successfully waited for workers to finish.
+2019-09-02 11:08:33.571 [ Thread-2 ] - [ INFO  ] [ o.s.a.r.listener.SimpleMessageListenerContainer : 586 ] - Waiting for workers to finish.
+2019-09-02 11:08:34.580 [ Thread-2 ] - [ INFO  ] [ o.s.a.r.listener.SimpleMessageListenerContainer : 589 ] - Successfully waited for workers to finish.
+2019-09-02 11:08:34.584 [ Thread-2 ] - [ INFO  ] [ o.s.a.r.listener.SimpleMessageListenerContainer : 1226 ] - Shutdown ignored - container is not active already
+2019-09-02 11:08:34.584 [ Thread-2 ] - [ INFO  ] [ o.s.a.r.listener.SimpleMessageListenerContainer : 1226 ] - Shutdown ignored - container is not active already
+2019-09-02 11:08:34.584 [ Thread-2 ] - [ INFO  ] [ o.s.scheduling.concurrent.ThreadPoolTaskExecutor : 208 ] - Shutting down ExecutorService 'applicationTaskExecutor'
+2019-09-02 11:08:34.606 [ Thread-2 ] - [ INFO  ] [ o.s.orm.jpa.LocalContainerEntityManagerFactoryBean : 597 ] - Closing JPA EntityManagerFactory for persistence unit 'default'
+2019-09-02 11:08:34.608 [ Thread-2 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 350 ] - HikariPool-1 - Shutdown initiated...
+2019-09-02 11:08:34.610 [ Thread-2 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 352 ] - HikariPool-1 - Shutdown completed.
+2019-09-02 11:10:29.446 [ main ] - [ INFO  ] [ com.song.demo.DemoApplicationTests : 50 ] - Starting DemoApplicationTests on DESKTOP-HGEGF8D with PID 3140 (started by 13838 in D:\workspace\mySpace\mySpringBoot\demo)
+2019-09-02 11:10:29.447 [ main ] - [ INFO  ] [ com.song.demo.DemoApplicationTests : 679 ] - The following profiles are active: dev
+2019-09-02 11:10:31.136 [ main ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 110 ] - HikariPool-1 - Starting...
+2019-09-02 11:10:31.259 [ main ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 123 ] - HikariPool-1 - Start completed.
+2019-09-02 11:10:31.316 [ main ] - [ INFO  ] [ org.hibernate.jpa.internal.util.LogHelper : 31 ] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2019-09-02 11:10:31.379 [ main ] - [ INFO  ] [ org.hibernate.Version : 46 ] - HHH000412: Hibernate Core {5.3.10.Final}
+2019-09-02 11:10:31.380 [ main ] - [ INFO  ] [ org.hibernate.cfg.Environment : 213 ] - HHH000206: hibernate.properties not found
+2019-09-02 11:10:31.538 [ main ] - [ INFO  ] [ org.hibernate.annotations.common.Version : 49 ] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2019-09-02 11:10:31.805 [ main ] - [ INFO  ] [ org.hibernate.dialect.Dialect : 157 ] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2019-09-02 11:10:33.644 [ main ] - [ INFO  ] [ s.d.s.w.PropertySourcedRequestMappingHandlerMapping : 69 ] - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2019-09-02 11:10:34.638 [ main ] - [ INFO  ] [ s.d.s.web.plugins.DocumentationPluginsBootstrapper : 147 ] - Context refreshed
+2019-09-02 11:10:34.659 [ main ] - [ INFO  ] [ s.d.s.web.plugins.DocumentationPluginsBootstrapper : 150 ] - Found 1 custom documentation plugin(s)
+2019-09-02 11:10:34.681 [ main ] - [ INFO  ] [ s.d.spring.web.scanners.ApiListingReferenceScanner : 41 ] - Scanning for api listing references
+2019-09-02 11:10:34.869 [ main ] - [ INFO  ] [ s.d.s.w.r.operation.CachingOperationNameGenerator : 40 ] - Generating unique operation named: refundUsingGET_1
+2019-09-02 11:10:35.092 [ main ] - [ INFO  ] [ com.song.demo.DemoApplicationTests : 59 ] - Started DemoApplicationTests in 6.147 seconds (JVM running for 7.076)
+2019-09-02 11:10:35.145 [ main ] - [ INFO  ] [ com.song.demo.DemoApplication : 24 ] - info 这是一条测试信息！
+2019-09-02 11:10:35.145 [ main ] - [ WARN  ] [ com.song.demo.DemoApplication : 25 ] - warn 这是一条测试信息！
+2019-09-02 11:10:35.145 [ main ] - [ ERROR ] [ com.song.demo.DemoApplication : 26 ] - error 这是一条测试信息！
+2019-09-02 11:10:37.116 [ Thread-2 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 350 ] - HikariPool-1 - Shutdown initiated...
+2019-09-02 11:10:37.119 [ Thread-2 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 352 ] - HikariPool-1 - Shutdown completed.
+2019-09-02 11:29:11.585 [ main ] - [ INFO  ] [ com.song.demo.DemoApplicationTests : 50 ] - Starting DemoApplicationTests on DESKTOP-HGEGF8D with PID 9288 (started by 13838 in D:\workspace\mySpace\mySpringBoot\demo)
+2019-09-02 11:29:11.586 [ main ] - [ INFO  ] [ com.song.demo.DemoApplicationTests : 679 ] - The following profiles are active: dev
+2019-09-02 11:29:13.236 [ main ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 110 ] - HikariPool-1 - Starting...
+2019-09-02 11:29:13.357 [ main ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 123 ] - HikariPool-1 - Start completed.
+2019-09-02 11:29:13.413 [ main ] - [ INFO  ] [ org.hibernate.jpa.internal.util.LogHelper : 31 ] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2019-09-02 11:29:13.478 [ main ] - [ INFO  ] [ org.hibernate.Version : 46 ] - HHH000412: Hibernate Core {5.3.10.Final}
+2019-09-02 11:29:13.480 [ main ] - [ INFO  ] [ org.hibernate.cfg.Environment : 213 ] - HHH000206: hibernate.properties not found
+2019-09-02 11:29:13.637 [ main ] - [ INFO  ] [ org.hibernate.annotations.common.Version : 49 ] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2019-09-02 11:29:13.926 [ main ] - [ INFO  ] [ org.hibernate.dialect.Dialect : 157 ] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2019-09-02 11:29:15.782 [ main ] - [ INFO  ] [ s.d.s.w.PropertySourcedRequestMappingHandlerMapping : 69 ] - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2019-09-02 11:29:16.791 [ main ] - [ INFO  ] [ s.d.s.web.plugins.DocumentationPluginsBootstrapper : 147 ] - Context refreshed
+2019-09-02 11:29:16.812 [ main ] - [ INFO  ] [ s.d.s.web.plugins.DocumentationPluginsBootstrapper : 150 ] - Found 1 custom documentation plugin(s)
+2019-09-02 11:29:16.834 [ main ] - [ INFO  ] [ s.d.spring.web.scanners.ApiListingReferenceScanner : 41 ] - Scanning for api listing references
+2019-09-02 11:29:17.023 [ main ] - [ INFO  ] [ s.d.s.w.r.operation.CachingOperationNameGenerator : 40 ] - Generating unique operation named: refundUsingGET_1
+2019-09-02 11:29:17.485 [ main ] - [ INFO  ] [ com.song.demo.DemoApplicationTests : 59 ] - Started DemoApplicationTests in 6.423 seconds (JVM running for 7.285)
+2019-09-02 11:29:17.538 [ main ] - [ INFO  ] [ com.song.demo.DemoApplication : 24 ] - info 这是一条测试信息！
+2019-09-02 11:29:17.539 [ main ] - [ WARN  ] [ com.song.demo.DemoApplication : 25 ] - warn 这是一条测试信息！
+2019-09-02 11:29:17.539 [ main ] - [ ERROR ] [ com.song.demo.DemoApplication : 26 ] - error 这是一条测试信息！
+2019-09-02 11:29:19.515 [ Thread-2 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 350 ] - HikariPool-1 - Shutdown initiated...
+2019-09-02 11:29:19.520 [ Thread-2 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 352 ] - HikariPool-1 - Shutdown completed.
+2019-09-02 11:38:37.019 [ main ] - [ INFO  ] [ com.song.demo.DemoApplicationTests : 50 ] - Starting DemoApplicationTests on DESKTOP-HGEGF8D with PID 5892 (started by 13838 in D:\workspace\mySpace\mySpringBoot\demo)
+2019-09-02 11:38:37.020 [ main ] - [ INFO  ] [ com.song.demo.DemoApplicationTests : 679 ] - The following profiles are active: dev
+2019-09-02 11:38:38.711 [ main ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 110 ] - HikariPool-1 - Starting...
+2019-09-02 11:38:38.835 [ main ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 123 ] - HikariPool-1 - Start completed.
+2019-09-02 11:38:38.893 [ main ] - [ INFO  ] [ org.hibernate.jpa.internal.util.LogHelper : 31 ] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2019-09-02 11:38:38.958 [ main ] - [ INFO  ] [ org.hibernate.Version : 46 ] - HHH000412: Hibernate Core {5.3.10.Final}
+2019-09-02 11:38:38.960 [ main ] - [ INFO  ] [ org.hibernate.cfg.Environment : 213 ] - HHH000206: hibernate.properties not found
+2019-09-02 11:38:39.113 [ main ] - [ INFO  ] [ org.hibernate.annotations.common.Version : 49 ] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2019-09-02 11:38:39.393 [ main ] - [ INFO  ] [ org.hibernate.dialect.Dialect : 157 ] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2019-09-02 11:38:41.268 [ main ] - [ INFO  ] [ s.d.s.w.PropertySourcedRequestMappingHandlerMapping : 69 ] - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2019-09-02 11:38:42.266 [ main ] - [ INFO  ] [ s.d.s.web.plugins.DocumentationPluginsBootstrapper : 147 ] - Context refreshed
+2019-09-02 11:38:42.287 [ main ] - [ INFO  ] [ s.d.s.web.plugins.DocumentationPluginsBootstrapper : 150 ] - Found 1 custom documentation plugin(s)
+2019-09-02 11:38:42.311 [ main ] - [ INFO  ] [ s.d.spring.web.scanners.ApiListingReferenceScanner : 41 ] - Scanning for api listing references
+2019-09-02 11:38:42.495 [ main ] - [ INFO  ] [ s.d.s.w.r.operation.CachingOperationNameGenerator : 40 ] - Generating unique operation named: refundUsingGET_1
+2019-09-02 11:38:42.721 [ main ] - [ INFO  ] [ com.song.demo.DemoApplicationTests : 59 ] - Started DemoApplicationTests in 6.221 seconds (JVM running for 7.1)
+2019-09-02 11:38:42.773 [ main ] - [ INFO  ] [ com.song.demo.DemoApplication : 24 ] - info 这是一条测试信息！
+2019-09-02 11:38:42.774 [ main ] - [ WARN  ] [ com.song.demo.DemoApplication : 25 ] - warn 这是一条测试信息！
+2019-09-02 11:38:42.774 [ main ] - [ ERROR ] [ com.song.demo.DemoApplication : 26 ] - error 这是一条测试信息！
+2019-09-02 11:38:44.743 [ Thread-2 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 350 ] - HikariPool-1 - Shutdown initiated...
+2019-09-02 11:38:44.746 [ Thread-2 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 352 ] - HikariPool-1 - Shutdown completed.
+2019-09-02 11:39:19.475 [ main ] - [ INFO  ] [ com.song.demo.DemoApplicationTests : 50 ] - Starting DemoApplicationTests on DESKTOP-HGEGF8D with PID 17220 (started by 13838 in D:\workspace\mySpace\mySpringBoot\demo)
+2019-09-02 11:39:19.476 [ main ] - [ INFO  ] [ com.song.demo.DemoApplicationTests : 679 ] - The following profiles are active: dev
+2019-09-02 11:39:21.192 [ main ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 110 ] - HikariPool-1 - Starting...
+2019-09-02 11:39:21.310 [ main ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 123 ] - HikariPool-1 - Start completed.
+2019-09-02 11:39:21.367 [ main ] - [ INFO  ] [ org.hibernate.jpa.internal.util.LogHelper : 31 ] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2019-09-02 11:39:21.429 [ main ] - [ INFO  ] [ org.hibernate.Version : 46 ] - HHH000412: Hibernate Core {5.3.10.Final}
+2019-09-02 11:39:21.431 [ main ] - [ INFO  ] [ org.hibernate.cfg.Environment : 213 ] - HHH000206: hibernate.properties not found
+2019-09-02 11:39:21.586 [ main ] - [ INFO  ] [ org.hibernate.annotations.common.Version : 49 ] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2019-09-02 11:39:21.856 [ main ] - [ INFO  ] [ org.hibernate.dialect.Dialect : 157 ] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2019-09-02 11:39:23.721 [ main ] - [ INFO  ] [ s.d.s.w.PropertySourcedRequestMappingHandlerMapping : 69 ] - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2019-09-02 11:39:24.714 [ main ] - [ INFO  ] [ s.d.s.web.plugins.DocumentationPluginsBootstrapper : 147 ] - Context refreshed
+2019-09-02 11:39:24.734 [ main ] - [ INFO  ] [ s.d.s.web.plugins.DocumentationPluginsBootstrapper : 150 ] - Found 1 custom documentation plugin(s)
+2019-09-02 11:39:24.756 [ main ] - [ INFO  ] [ s.d.spring.web.scanners.ApiListingReferenceScanner : 41 ] - Scanning for api listing references
+2019-09-02 11:39:24.939 [ main ] - [ INFO  ] [ s.d.s.w.r.operation.CachingOperationNameGenerator : 40 ] - Generating unique operation named: refundUsingGET_1
+2019-09-02 11:39:25.180 [ main ] - [ INFO  ] [ com.song.demo.DemoApplicationTests : 59 ] - Started DemoApplicationTests in 6.154 seconds (JVM running for 7.072)
+2019-09-02 11:39:25.239 [ main ] - [ INFO  ] [ com.song.demo.DemoApplication : 24 ] - info 这是一条测试信息！
+2019-09-02 11:39:25.240 [ main ] - [ WARN  ] [ com.song.demo.DemoApplication : 25 ] - warn 这是一条测试信息！
+2019-09-02 11:39:25.240 [ main ] - [ ERROR ] [ com.song.demo.DemoApplication : 26 ] - error 这是一条测试信息！
+2019-09-02 11:39:27.201 [ Thread-2 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 350 ] - HikariPool-1 - Shutdown initiated...
+2019-09-02 11:39:27.203 [ Thread-2 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 352 ] - HikariPool-1 - Shutdown completed.
+2019-09-02 11:40:15.510 [ main ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 110 ] - HikariPool-1 - Starting...
+2019-09-02 11:40:15.634 [ main ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 123 ] - HikariPool-1 - Start completed.
+2019-09-02 11:40:15.690 [ main ] - [ INFO  ] [ org.hibernate.jpa.internal.util.LogHelper : 31 ] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2019-09-02 11:40:15.750 [ main ] - [ INFO  ] [ org.hibernate.Version : 46 ] - HHH000412: Hibernate Core {5.3.10.Final}
+2019-09-02 11:40:15.751 [ main ] - [ INFO  ] [ org.hibernate.cfg.Environment : 213 ] - HHH000206: hibernate.properties not found
+2019-09-02 11:40:15.908 [ main ] - [ INFO  ] [ org.hibernate.annotations.common.Version : 49 ] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2019-09-02 11:40:16.179 [ main ] - [ INFO  ] [ org.hibernate.dialect.Dialect : 157 ] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2019-09-02 11:40:18.070 [ main ] - [ INFO  ] [ s.d.s.w.PropertySourcedRequestMappingHandlerMapping : 69 ] - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2019-09-02 11:40:19.077 [ main ] - [ INFO  ] [ s.d.s.web.plugins.DocumentationPluginsBootstrapper : 147 ] - Context refreshed
+2019-09-02 11:40:19.098 [ main ] - [ INFO  ] [ s.d.s.web.plugins.DocumentationPluginsBootstrapper : 150 ] - Found 1 custom documentation plugin(s)
+2019-09-02 11:40:19.121 [ main ] - [ INFO  ] [ s.d.spring.web.scanners.ApiListingReferenceScanner : 41 ] - Scanning for api listing references
+2019-09-02 11:40:19.303 [ main ] - [ INFO  ] [ s.d.s.w.r.operation.CachingOperationNameGenerator : 40 ] - Generating unique operation named: refundUsingGET_1
+2019-09-02 11:40:21.562 [ Thread-2 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 350 ] - HikariPool-1 - Shutdown initiated...
+2019-09-02 11:40:21.564 [ Thread-2 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 352 ] - HikariPool-1 - Shutdown completed.
+2019-09-02 13:47:04.983 [ main ] - [ INFO  ] [ com.song.demo.DemoApplicationTests : 50 ] - Starting DemoApplicationTests on DESKTOP-HGEGF8D with PID 16676 (started by 13838 in D:\workspace\mySpace\mySpringBoot\demo)
+2019-09-02 13:47:04.984 [ main ] - [ INFO  ] [ com.song.demo.DemoApplicationTests : 679 ] - The following profiles are active: dev
+2019-09-02 13:47:06.710 [ main ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 110 ] - HikariPool-1 - Starting...
+2019-09-02 13:47:06.832 [ main ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 123 ] - HikariPool-1 - Start completed.
+2019-09-02 13:47:06.889 [ main ] - [ INFO  ] [ org.hibernate.jpa.internal.util.LogHelper : 31 ] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2019-09-02 13:47:06.956 [ main ] - [ INFO  ] [ org.hibernate.Version : 46 ] - HHH000412: Hibernate Core {5.3.10.Final}
+2019-09-02 13:47:06.958 [ main ] - [ INFO  ] [ org.hibernate.cfg.Environment : 213 ] - HHH000206: hibernate.properties not found
+2019-09-02 13:47:07.117 [ main ] - [ INFO  ] [ org.hibernate.annotations.common.Version : 49 ] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2019-09-02 13:47:07.400 [ main ] - [ INFO  ] [ org.hibernate.dialect.Dialect : 157 ] - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2019-09-02 13:47:09.261 [ main ] - [ INFO  ] [ s.d.s.w.PropertySourcedRequestMappingHandlerMapping : 69 ] - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2019-09-02 13:47:10.371 [ main ] - [ INFO  ] [ s.d.s.web.plugins.DocumentationPluginsBootstrapper : 147 ] - Context refreshed
+2019-09-02 13:47:10.391 [ main ] - [ INFO  ] [ s.d.s.web.plugins.DocumentationPluginsBootstrapper : 150 ] - Found 1 custom documentation plugin(s)
+2019-09-02 13:47:10.413 [ main ] - [ INFO  ] [ s.d.spring.web.scanners.ApiListingReferenceScanner : 41 ] - Scanning for api listing references
+2019-09-02 13:47:10.592 [ main ] - [ INFO  ] [ s.d.s.w.r.operation.CachingOperationNameGenerator : 40 ] - Generating unique operation named: refundUsingGET_1
+2019-09-02 13:47:10.918 [ main ] - [ INFO  ] [ com.song.demo.DemoApplicationTests : 59 ] - Started DemoApplicationTests in 6.373 seconds (JVM running for 7.341)
+2019-09-02 13:47:10.969 [ main ] - [ INFO  ] [ com.song.demo.DemoApplication : 24 ] - info 这是一条测试信息！
+2019-09-02 13:47:10.969 [ main ] - [ WARN  ] [ com.song.demo.DemoApplication : 25 ] - warn 这是一条测试信息！
+2019-09-02 13:47:10.970 [ main ] - [ ERROR ] [ com.song.demo.DemoApplication : 26 ] - error 这是一条测试信息！
+2019-09-02 13:47:12.941 [ Thread-2 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 350 ] - HikariPool-1 - Shutdown initiated...
+2019-09-02 13:47:12.944 [ Thread-2 ] - [ INFO  ] [ com.zaxxer.hikari.HikariDataSource : 352 ] - HikariPool-1 - Shutdown completed.

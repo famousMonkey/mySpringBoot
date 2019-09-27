@@ -1,15 +1,16 @@
 package com.song.demo.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.fasterxml.jackson.databind.ser.std.DateSerializer;
+import com.song.demo.util.DateSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -26,14 +27,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(description = "学生信息实体")
-public class Student implements Serializable {
-
-    @Id
-    @GenericGenerator(name = "MyUUID",strategy = "com.song.demo.constant.MyUUID")
-    @GeneratedValue(generator = "MyUUID")
-    @ApiModelProperty(value = "学生id",hidden = true)
-    @Column(name = "STUDENT_ID", length = 24)
-    private String id;
+public class Student extends BaseEntity implements Serializable {
 
     @ApiModelProperty(value = "学生姓名")
     @Column(name = "STUDENT_NAME", length = 10)

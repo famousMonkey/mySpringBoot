@@ -1,14 +1,14 @@
 package com.song.demo.Service.impl;
 
 import com.song.demo.Service.StudentService;
+import com.song.demo.entity.BaseEntity;
 import com.song.demo.entity.Student;
 import com.song.demo.repository.StudentRepository;
+import com.song.demo.util.CopyUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -25,8 +25,20 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
+
+    @Override
+    public boolean saveAll(List<Student> list) {
+        for (Student student : list) {
+            this.packageInsertProperty(student);
+        }
+        List<Student> students = studentRepository.saveAll(list);
+        log.info("批量保存：{}",students);
+        return true;
+    }
+
     @Override
     public Student saveResource(Student student) {
+        this.packageInsertProperty(student);
         Student resource = studentRepository.save(student);
         return resource;
     }
@@ -39,18 +51,11 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public boolean updateResource(String id, Student student) {
+        this.packageUpdateProperty(student);
         Optional<Student> resource = studentRepository.findById(id);
         student.setId(id);
         Student stu = resource.get();
-        try {
-            PropertyUtils.copyProperties(stu,student);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
+        CopyUtil.copyNonNullProperties(student,stu);
         Student save = studentRepository.save(stu);
         if(save!=null){
             return true;
@@ -63,13 +68,17 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student findById(String id) {
         Optional<Student> stu = studentRepository.findById(id);
-        Student student = stu.orElse(new Student("err","当你看到这个结果时，说明没有查到结果",000,new Date()));
+        Student student = stu.orElse(new Student("为查询带结果",404,new Date()));
         return student;
     }
 
     @Override
-    public List<Student> findAll() {
-        return studentRepository.findAll();
+    public List<Student> findAll(Integer mark) {
+        if(mark!=null||mark!=0){
+            return this.findByDay(mark);
+        }else{
+            return studentRepository.findAll();
+        }
     }
 
     @Override
@@ -92,4 +101,22 @@ public class StudentServiceImpl implements StudentService {
         return allStudent;
 
     }
+
+
+    @Override
+    public List<Student> findByDay(Integer days) {
+        return studentRepository.queryByDays(days.toString());
+    }
+
+    //保存前插入公共属性
+    private void packageInsertProperty(BaseEntity entity){
+        entity.setCreateTime(new Date());
+        entity.setLastModifiedTime(new Date());
+    }
+
+    //更新前修改公共属性
+    private void packageUpdateProperty(BaseEntity entity){
+        entity.setLastModifiedTime(new Date());
+    }
+
 }

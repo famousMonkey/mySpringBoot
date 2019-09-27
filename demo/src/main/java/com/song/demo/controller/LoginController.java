@@ -207,12 +207,12 @@ public class LoginController {
         }
     }
 
-    @GetMapping(value = "/redis")
-    public String myRedis(){
-        String name="monkey";
-        String s = JSON.toJSONString(name);
-        stringRedisTemplate.opsForValue().set("wwwsssaaaddd",s,30, TimeUnit.SECONDS);
-        return "success";
+    @GetMapping(value = "/redis/{id}")
+    @ResponseBody
+    public ResultMsg myRedis(@PathVariable("id")String id){
+        String key="my:login:id"+id;
+        stringRedisTemplate.opsForValue().set(key,"123456",30,TimeUnit.MINUTES);
+        return new ResultMsg(10000,"SUCCESS");
     }
 
     @GetMapping(value = "/getvalue")
@@ -386,6 +386,9 @@ public class LoginController {
         System.out.println("ghi");
         return ss;
     }
+
+
+
 
 
 }
