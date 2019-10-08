@@ -29,7 +29,6 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    int a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p;
 
     @ApiOperation(value = "批量保存信息",notes ="批量保存")
     @GetMapping(value = "/saveall/{number}")
@@ -182,80 +181,42 @@ public class StudentController {
 
     @GetMapping(value = "/testTime/time2/{n}")
     public List<Integer> testTime2(@PathVariable("n")Integer integer){
+        if(integer==null||integer==0){
+            integer=30;
+        }
         long startTime = System.currentTimeMillis();
         List<Student> all = studentService.findAll(integer);
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf=new SimpleDateFormat("MM-dd");
         Calendar calendar=Calendar.getInstance();
-        List<String> list=new LinkedList<>();
-        for(int i=0;i<integer;i++){
+        String strs[]=new String[integer.intValue()];
+        for(int i=1;i<=strs.length;i++){
             Date data=new Date();
             calendar.setTime(data);
-            calendar.add(Calendar.DATE,-(i+1));
+            calendar.add(Calendar.DATE,-i);
             Date time = calendar.getTime();
             String str = sdf.format(time);
-            list.add(str);
+            strs[i-1]=str;
         }
-        log.info("数据：{}",list);
-        for (Student student : all) {
-            Date createTime = student.getCreateTime();
-            String temp = sdf.format(createTime);
-            switch (temp){
-                case "2019-09-25":
-                    a+=1;
-                    break;
-                case "2019-09-24":
-                    b+=1;
-                    break;
-                case "2019-09-23":
-                    c+=1;
-                    break;
-                case "2019-09-22":
-                    d+=1;
-                    break;
-                case "2019-09-21":
-                    e+=1;
-                    break;
-                case "2019-09-20":
-                    f+=1;
-                    break;
-                case "2019-09-19":
-                    g+=1;
-                    break;
-                case "2019-09-18":
-                    h+=1;
-                    break;
-                case "2019-09-17":
-                    i+=1;
-                    break;
-                case "2019-09-16":
+        log.info("数据库数据：{}",all);
+        log.info("#######################################");
+        Integer myStrs[]=new Integer[integer.intValue()];
+        for (int q = 0; q < strs.length; q++) {
+            int j=0;
+            String stander = strs[q];
+            for (Student student : all) {
+                String result = sdf.format(student.getBirthday());
+                if(stander.equals(result)){
                     j+=1;
-                    break;
-                case "2019-09-15":
-                    k+=1;
-                    break;
-                case "2019-09-14":
-                    l+=1;
-                    break;
-                case "2019-09-13":
-                    m+=1;
-                    break;
-                case "2019-09-12":
-                    n+=1;
-                    break;
-                case "2019-09-11":
-                    o+=1;
-                    break;
-                default:
-                    p+=1;
-                    break;
+                    myStrs[q]=j;
+                }else{
+                    myStrs[q]=0;
+                }
             }
         }
-        List<Integer> myList=new ArrayList<>();
-        myList.add(a);myList.add(b);myList.add(c);myList.add(d);myList.add(e);myList.add(f);myList.add(g);myList.add(h);myList.add(i);myList.add(g);myList.add(k);myList.add(l);myList.add(m);myList.add(n);myList.add(o);myList.add(p);
         long endTime = System.currentTimeMillis();
         log.info("用时：{}", endTime-startTime);
-        return myList;
-
+        List<Integer> integers = Arrays.asList(myStrs);
+        return integers;
     }
 
 
