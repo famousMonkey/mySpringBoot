@@ -1,13 +1,14 @@
 package com.song.demo.config;
 
-import com.song.demo.Service.CLTService;
+import com.song.demo.Service.StudentService;
+import com.song.demo.entity.Student;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
-import java.util.TimerTask;
+import java.util.List;
 
 /**
  * @ClassName: MyTask
@@ -16,29 +17,32 @@ import java.util.TimerTask;
  * @Date: 2019/8/8 10:53
  * @Version: 1.0
  **/
-//@Component
+@Component
 @EnableScheduling
 @Slf4j
-public class MyTask extends TimerTask {
+public class MyTask{
 
     @Autowired
-    private CLTService cltService;
+    private StudentService studentService;
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
-
-
-    @Scheduled(fixedDelay = 10000L)
-    @Override
-    public void run() {
-        log.info("!!!!!!!!!!!task start!!!!!!!!!");
-        String ccSessionId=null;
-        if(stringRedisTemplate.hasKey("clt.phoneNumber:17780611561")){
-            String s = stringRedisTemplate.opsForValue().get("clt.phoneNumber:17780611561");
-            ccSessionId=s;
-            System.out.println("ccSessionId:"+ccSessionId);
-            cltService.alive(ccSessionId);
+    @Scheduled(cron = "*/30 * * * * ?")
+    public void myTask(){
+        log.info("------start task-----");
+        List<Student> all = studentService.findAll(0);
+        for (Student student : all) {
+            if(student.getName().equals("吴博涛")){
+                Integer age = student.getAge();
+                if(age==null){
+                    age=0;
+                }else{
+                    age+=1;
+                }
+                student.setAge(age);
+                studentService.updateResource(student.getId(),student);
+                log.info("更新学生信息ok");
+            }
         }
-        log.info("!!!!!!!!!!!task end!!!!!!!!!");
+        log.info("------end task-----");
     }
+
 }

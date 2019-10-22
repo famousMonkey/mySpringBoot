@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
  **/
 @Component
 @Slf4j
-
 public class Consumer {
 
     @RabbitListener(queues = "famous")

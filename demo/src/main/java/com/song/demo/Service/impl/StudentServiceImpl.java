@@ -74,7 +74,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> findAll(Integer mark) {
-        if(mark!=null||mark!=0){
+        if(mark!=null&&mark!=0){
             return this.findByDay(mark);
         }else{
             return studentRepository.findAll();

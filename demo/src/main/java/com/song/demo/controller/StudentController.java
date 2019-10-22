@@ -2,6 +2,7 @@ package com.song.demo.controller;
 
 import com.github.javafaker.Faker;
 import com.song.demo.Service.StudentService;
+import com.song.demo.config.ResultMsg;
 import com.song.demo.entity.Student;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -99,12 +100,13 @@ public class StudentController {
 
     @ApiOperation(value = "查询所有",notes = "查全部")
     @GetMapping(value = "/findAll")
-    public List<Student> findAll(){
+    public ResultMsg findAll(){
         List<Student> all = studentService.findAll(0);
         JSONArray jsonArray = JSONArray.fromObject(all);
         String s = jsonArray.toString();
         System.out.println(s);
-        return all;
+        ResultMsg resultMsg=new ResultMsg(10000,"success",all);
+        return resultMsg;
     }
 
 
