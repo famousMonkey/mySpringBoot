@@ -20,4 +20,6 @@ public interface StudentRepository extends PagingAndSortingRepository<Student,St
 
     @Query(value = "select * from student where date_sub(curdate(),interval ?1 day )<=date(student_birthday)",nativeQuery = true)
     List<Student> queryByDays(String days);
+
+    Student findByNameAndAgeNot(String name,Integer age);
 }

@@ -131,6 +131,19 @@ public class StudentController {
     }
 
 
+    @ApiOperation(value = "按名字和不等于年龄查询",notes = "查数据")
+    @GetMapping(value = "/findByNameAndAgeNot/{name}/{age}")
+    public ResultMsg<Student> findByNameAndAgeNot(@PathVariable("name")String name,@PathVariable("age")Integer age){
+        Student entity = studentService.findByNameAndAgeNot(name, age);
+        if(entity!=null){
+            return new ResultMsg(10000,"success",entity);
+        }else{
+            return new ResultMsg(10022,"fail");
+        }
+    }
+
+
+
     @GetMapping(value = "/testTime/time")
     public List<Integer> testTime(){
         long startTime = System.currentTimeMillis();

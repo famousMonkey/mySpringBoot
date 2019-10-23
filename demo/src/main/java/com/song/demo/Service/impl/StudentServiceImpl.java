@@ -108,6 +108,12 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.queryByDays(days.toString());
     }
 
+    @Override
+    public Student findByNameAndAgeNot(String name,Integer age){
+        return studentRepository.findByNameAndAgeNot(name,age);
+    }
+
+
     //保存前插入公共属性
     private void packageInsertProperty(BaseEntity entity){
         entity.setCreateTime(new Date());
