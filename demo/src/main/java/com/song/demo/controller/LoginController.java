@@ -210,8 +210,10 @@ public class LoginController {
     @GetMapping(value = "/redis/{id}")
     @ResponseBody
     public ResultMsg myRedis(@PathVariable("id")String id){
-        String key="my:login:id"+id;
+        String key="my:login:id:"+id;
         stringRedisTemplate.opsForValue().set(key,"123456",30,TimeUnit.MINUTES);
+        String myKey="my.myLogin.id."+id;
+        stringRedisTemplate.opsForValue().set(myKey,"helloWorld",30,TimeUnit.MINUTES);
         return new ResultMsg(10000,"SUCCESS");
     }
 
