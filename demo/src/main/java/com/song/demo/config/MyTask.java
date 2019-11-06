@@ -25,7 +25,7 @@ public class MyTask{
     @Autowired
     private StudentService studentService;
 
-    @Scheduled(cron = "*/30 * * * * ?")
+    @Scheduled(cron = "* * 22 * * ?")
     public void myTask(){
         log.info("------start task-----");
         List<Student> all = studentService.findAll(0);

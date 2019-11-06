@@ -8,6 +8,7 @@ import com.song.demo.util.CopyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -36,10 +37,16 @@ public class StudentServiceImpl implements StudentService {
         return true;
     }
 
+    @Transactional
     @Override
     public Student saveResource(Student student) {
         this.packageInsertProperty(student);
         Student resource = studentRepository.save(student);
+        log.info("保存的信息：{}",resource);
+//        if(1==1){
+//            log.info("----------<<<<手动回滚本地事务");
+//            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+//        }
         return resource;
     }
 

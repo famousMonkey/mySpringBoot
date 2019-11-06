@@ -64,17 +64,19 @@ public class LoginController {
     @GetMapping(value = "/testException")
     @ApiOperation(value = "测试全局异常",notes = "全局异常")
     @ResponseBody
-    public String testException(@RequestParam(value = "tag",required = false)String tag){
+    public ResultMsg testException(@RequestParam(value = "tag",required = false)String tag){
         if("123".equalsIgnoreCase(tag)){
-            return tag;
+            return new ResultMsg(10000,"success");
         }
         if("456".equalsIgnoreCase(tag)){
-            throw new RuntimeException();
+            int i = Integer.parseInt("monkey");
         }
         if("789".equalsIgnoreCase(tag)){
-            throw new NullPointerException();
+            String name=null;
+            int length = name.length();
+            log.info("长度：{}",length);
         }
-        return "smile";
+        return new ResultMsg(10000,"success");
     }
 
     @GetMapping(value = "myValue3")
@@ -388,6 +390,7 @@ public class LoginController {
         System.out.println("ghi");
         return ss;
     }
+
 
 
 
