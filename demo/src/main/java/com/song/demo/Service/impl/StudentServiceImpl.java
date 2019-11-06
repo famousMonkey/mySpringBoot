@@ -1,7 +1,7 @@
 package com.song.demo.Service.impl;
 
 import com.song.demo.Service.StudentService;
-import com.song.demo.entity.BaseEntity;
+import com.song.demo.config.BaseService;
 import com.song.demo.entity.Student;
 import com.song.demo.repository.StudentRepository;
 import com.song.demo.util.CopyUtil;
@@ -21,7 +21,7 @@ import java.util.*;
  **/
 @Slf4j
 @Service
-public class StudentServiceImpl implements StudentService {
+public class StudentServiceImpl extends BaseService<Student> implements StudentService {
 
     @Autowired
     private StudentRepository studentRepository;
@@ -30,7 +30,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public boolean saveAll(List<Student> list) {
         for (Student student : list) {
-            this.packageInsertProperty(student);
+            super.packageInsertProperty(student);
         }
         List<Student> students = studentRepository.saveAll(list);
         log.info("批量保存：{}",students);
@@ -40,7 +40,7 @@ public class StudentServiceImpl implements StudentService {
     @Transactional
     @Override
     public Student saveResource(Student student) {
-        this.packageInsertProperty(student);
+        super.packageInsertProperty(student);
         Student resource = studentRepository.save(student);
         log.info("保存的信息：{}",resource);
 //        if(1==1){
@@ -58,7 +58,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public boolean updateResource(String id, Student student) {
-        this.packageUpdateProperty(student);
+        super.packageUpdateProperty(student);
         Optional<Student> resource = studentRepository.findById(id);
         student.setId(id);
         Student stu = resource.get();
@@ -121,15 +121,15 @@ public class StudentServiceImpl implements StudentService {
     }
 
 
-    //保存前插入公共属性
-    private void packageInsertProperty(BaseEntity entity){
-        entity.setCreateTime(new Date());
-        entity.setLastModifiedTime(new Date());
-    }
-
-    //更新前修改公共属性
-    private void packageUpdateProperty(BaseEntity entity){
-        entity.setLastModifiedTime(new Date());
-    }
+//    //保存前插入公共属性
+//    private void packageInsertProperty(BaseEntity entity){
+//        entity.setCreateTime(new Date());
+//        entity.setLastModifiedTime(new Date());
+//    }
+//
+//    //更新前修改公共属性
+//    private void packageUpdateProperty(BaseEntity entity){
+//        entity.setLastModifiedTime(new Date());
+//    }
 
 }
