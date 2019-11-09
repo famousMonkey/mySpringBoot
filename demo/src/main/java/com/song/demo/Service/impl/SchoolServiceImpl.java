@@ -13,6 +13,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Random;
 
 /**
@@ -34,7 +35,7 @@ public class SchoolServiceImpl extends BaseService<School> implements SchoolServ
 
     @Transactional
     @Override
-    public School saveEntity(School school) {
+    public School save(School school) {
         super.packageInsertProperty(school);
         School result = schoolRepository.save(school);
         if(result!=null){
@@ -51,5 +52,31 @@ public class SchoolServiceImpl extends BaseService<School> implements SchoolServ
         }else{
             return null;
         }
+    }
+
+
+    @Override
+    public Boolean update(School school) {
+        String id = school.getId();
+        String address = school.getAddress();
+        int i = schoolRepository.updateResource(id, address);
+        log.info("更新结果：{}",i);
+        return i>0;
+    }
+
+    @Override
+    public Boolean delete(String id) {
+        int i = schoolRepository.deleteResourceById(id);
+        log.info("删除结果：{}",i);
+        return i>0;
+    }
+
+
+    @Override
+    public School query(String id) {
+        Optional<School> entity = schoolRepository.findById(id);
+        School school=new School();
+        school.setAddress("找不到这个学校！");
+        return entity.orElse(school);
     }
 }

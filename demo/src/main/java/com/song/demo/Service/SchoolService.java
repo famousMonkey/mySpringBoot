@@ -4,7 +4,12 @@ import com.song.demo.entity.School;
 
 public interface SchoolService {
 
-    School saveEntity(School school);
+    School save(School school);
 
+    Boolean update(School school);
+
+    Boolean delete(String id);
+
+    School query(String id);
 
 }
