@@ -1,6 +1,7 @@
 package com.song.demo.Service.impl;
 
 import com.song.demo.Service.PoliceService;
+import com.song.demo.config.BaseService;
 import com.song.demo.entity.Police;
 import com.song.demo.repository.PoliceRepository;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import javax.annotation.Resource;
  * @Version: 1.0
  **/
 @Service
-public class PoliceServiceImpl implements PoliceService {
+public class PoliceServiceImpl extends BaseService<Police> implements PoliceService {
 
 
     @Resource
@@ -24,6 +25,7 @@ public class PoliceServiceImpl implements PoliceService {
 
     @Override
     public Police persistence(Police police) {
+        super.packageInsertProperty(police);
         Police entity = policeRepository.save(police);
         return entity;
     }
@@ -35,6 +37,7 @@ public class PoliceServiceImpl implements PoliceService {
 
     @Override
     public Police update(Police police) {
+        super.packageUpdateProperty(police);
         Police entity = policeRepository.save(police);
         return entity;
     }

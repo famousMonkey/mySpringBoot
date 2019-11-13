@@ -19,10 +19,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -38,6 +40,9 @@ public class LoginController {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Autowired
     private HttpServletRequest request;
@@ -392,7 +397,14 @@ public class LoginController {
     }
 
 
-
+    @ResponseBody
+    @GetMapping(value = "/testRestTemplate")
+    public ResultMsg testRestTemplate(){
+        String url="http://192.168.3.96/mini-dolphin-integral-server/integral/order/list";
+        ResponseEntity<ResultMsg> response = restTemplate.getForEntity(url, ResultMsg.class);
+        log.info("结果：{}",response);
+        return response.getBody();
+    }
 
 
 
